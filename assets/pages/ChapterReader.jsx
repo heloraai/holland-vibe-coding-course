@@ -197,7 +197,7 @@ function ChapterReader() {
       <Nav current="reader" />
 
       {/* Chapter header */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px 32px' }}>
+      <div className="chapter-header" style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 32px 32px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--ink-3)', fontSize: 13, marginBottom: 16 }}>
           <a href="index.html" style={{ color: 'inherit', textDecoration: 'none' }}>首页</a>
           <span>›</span>

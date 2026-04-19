@@ -8,113 +8,88 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  @page { size: A4 landscape; margin: 0; }
+  @page { size: A4; margin: 0; }
   @media print {
     body { background: #FDFBF7 !important; background-image:
-      radial-gradient(ellipse 60% 70% at 0% 0%, oklch(0.95 0.06 70 / 0.7), transparent 60%),
-      radial-gradient(ellipse 50% 60% at 100% 100%, oklch(0.92 0.05 240 / 0.5), transparent 60%) !important;
+      radial-gradient(ellipse 80% 50% at 20% 0%, oklch(0.95 0.05 70 / 0.6), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 20%, oklch(0.93 0.04 240 / 0.4), transparent 60%) !important;
     }
   }
 
-  /* ---- Cover (landscape A4 ≈ 297×210mm) ---- */
+  /* ---- Cover (portrait A4 ≈ 210×297mm) ---- */
   .cover {
     width: 100vw; height: 100vh;
-    padding: 44px 64px 44px 64px;
-    display: grid;
-    grid-template-columns: 1.25fr 1fr;
-    grid-template-rows: auto 1fr auto;
-    column-gap: 56px;
+    padding: 40px 40px 32px;
+    display: flex; flex-direction: column; gap: 20px;
     page-break-after: always;
   }
-  .cover .tag {
-    grid-column: 1 / 2; grid-row: 1;
-    align-self: start;
-  }
+  .cover .spacer { flex: 1; min-height: 12px; }
   .cover-tag {
-    display: inline-block; padding: 7px 16px; border-radius: 999px;
+    display: inline-block; padding: 6px 14px; border-radius: 999px;
     background: var(--amber-soft); color: var(--amber-ink);
-    font-family: var(--f-mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
-  }
-  .cover .hero {
-    grid-column: 1 / 2; grid-row: 2;
-    align-self: center;
+    font-family: var(--f-mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
   }
   .cover-title {
     font-family: var(--f-serif); font-weight: 600;
-    font-size: 110px; line-height: 0.98; letter-spacing: -0.035em;
+    font-size: 82px; line-height: 1.0; letter-spacing: -0.035em;
     color: var(--ink); margin: 0;
   }
   .cover-title .accent { color: var(--amber-ink); }
   .cover-sub {
-    font-family: var(--f-serif); font-size: 26px; color: var(--ink-2);
-    margin-top: 26px; max-width: 520px; line-height: 1.5;
+    font-family: var(--f-serif); font-size: 20px; color: var(--ink-2);
+    margin-top: 14px; max-width: 520px; line-height: 1.5;
   }
+  .cover .glance { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .glance-card {
+    background: rgba(255,255,255,0.72);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 18px;
+  }
+  .glance-card .eyebrow { margin-bottom: 6px; }
+  .glance-card .big {
+    font-family: var(--f-serif); font-size: 22px; line-height: 1.25; color: var(--ink);
+    letter-spacing: -0.01em; margin: 0;
+  }
+  .glance-card .sub { font-size: 11.5px; color: var(--ink-3); margin-top: 4px; line-height: 1.55; }
   .cover .meta {
-    grid-column: 1 / 2; grid-row: 3;
-    align-self: end;
-    display: flex; gap: 44px;
-    padding-top: 22px;
+    display: flex; gap: 28px; padding-top: 12px;
     border-top: 1px solid var(--line-soft);
-    font-size: 12px; color: var(--ink-3);
+    font-size: 11px; color: var(--ink-3);
   }
   .cover .meta b { display: block; color: var(--ink-2); font-weight: 600;
-    font-family: var(--f-mono); font-size: 11px; letter-spacing: 2px; margin-bottom: 6px; }
-  .cover .meta .v { font-family: var(--f-serif); font-size: 17px; color: var(--ink); line-height: 1.3; }
+    font-family: var(--f-mono); font-size: 10px; letter-spacing: 2px; margin-bottom: 4px; }
+  .cover .meta .v { font-family: var(--f-serif); font-size: 14px; color: var(--ink); line-height: 1.3; }
 
-  /* Right column: a stylised "at a glance" card stack */
-  .cover .glance {
-    grid-column: 2 / 3; grid-row: 1 / 4;
-    align-self: center;
-    display: grid; gap: 14px;
-  }
-  .glance-card {
-    background: rgba(255,255,255,0.7);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 18px 22px;
-    backdrop-filter: blur(8px);
-  }
-  .glance-card .eyebrow { margin-bottom: 10px; }
-  .glance-card .big {
-    font-family: var(--f-serif); font-size: 34px; line-height: 1.15; color: var(--ink);
-    letter-spacing: -0.02em; margin: 0;
-  }
-  .glance-card .sub { font-size: 12px; color: var(--ink-3); margin-top: 6px; line-height: 1.6; }
-  .glance-card .row { display: flex; align-items: baseline; justify-content: space-between; }
-  .glance-card .num { font-family: var(--f-mono); font-size: 26px; color: var(--amber-ink); }
-  .glance-card .num.sm { font-size: 18px; }
-
-  /* ---- TOC pages (landscape, two columns) ---- */
+  /* ---- TOC page ---- */
   .toc-page {
     width: 100vw; min-height: 100vh;
-    padding: 36px 56px 28px;
+    padding: 28px 36px 24px;
     page-break-before: always; break-before: page;
     display: flex; flex-direction: column;
   }
-  .toc-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 18px; }
-  .toc-head h2 { font-family: var(--f-serif); font-size: 32px; font-weight: 500; margin: 0; letter-spacing: -0.01em; }
-  .toc-head .sub { font-size: 12px; color: var(--ink-3); font-family: var(--f-mono); letter-spacing: 2px; text-transform: uppercase; }
+  .toc-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
+  .toc-head h2 { font-family: var(--f-serif); font-size: 26px; font-weight: 500; margin: 0; letter-spacing: -0.01em; }
+  .toc-head .sub { font-size: 10px; color: var(--ink-3); font-family: var(--f-mono); letter-spacing: 2px; text-transform: uppercase; }
 
-  .toc-cols { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-  .toc-col  { display: flex; flex-direction: column; gap: 2px; }
-  .part-row { margin: 10px 0 6px; display: flex; flex-direction: column; }
+  .part-row { margin: 10px 0 4px; display: flex; flex-direction: column; }
   .part-row .eyebrow { margin: 0 0 2px; color: var(--amber-ink); }
-  .part-row .part-title { font-family: var(--f-serif); font-size: 13px; color: var(--ink-2); font-style: italic; }
-  .toc-row  {
+  .part-row .part-title { font-family: var(--f-serif); font-size: 12px; color: var(--ink-2); font-style: italic; }
+  .toc-row {
     display: grid; grid-template-columns: 44px 1fr auto;
-    gap: 12px; align-items: baseline; padding: 9px 0;
+    gap: 10px; align-items: baseline; padding: 7px 0;
     border-bottom: 1px dashed var(--line-soft);
   }
-  .toc-num { font-family: var(--f-mono); font-size: 12px; color: var(--amber-ink); letter-spacing: 1px; }
-  .toc-t   { font-family: var(--f-serif); font-size: 16px; color: var(--ink); line-height: 1.3; }
-  .toc-g   { font-size: 11px; color: var(--ink-3); margin-top: 3px; line-height: 1.55; }
-  .toc-d   { font-family: var(--f-mono); font-size: 10px; color: var(--ink-3); letter-spacing: 1px; white-space: nowrap; }
+  .toc-num { font-family: var(--f-mono); font-size: 11px; color: var(--amber-ink); letter-spacing: 1px; }
+  .toc-t   { font-family: var(--f-serif); font-size: 14px; color: var(--ink); line-height: 1.3; }
+  .toc-g   { font-size: 10.5px; color: var(--ink-3); margin-top: 2px; line-height: 1.5; }
+  .toc-d   { font-family: var(--f-mono); font-size: 9.5px; color: var(--ink-3); letter-spacing: 1px; white-space: nowrap; }
 
   .toc-foot {
-    margin-top: 14px; padding-top: 14px;
+    margin-top: auto; padding-top: 10px;
     border-top: 1px solid var(--line-soft);
     display: flex; justify-content: space-between;
-    font-size: 11px; color: var(--ink-3);
+    font-size: 10px; color: var(--ink-3);
     font-family: var(--f-mono); letter-spacing: 1px;
   }
 </style>
@@ -123,45 +98,38 @@
 
 <!-- ========= COVER ========= -->
 <section class="cover">
-  <div class="tag"><span class="cover-tag">Holland · 2026</span></div>
+  <span class="cover-tag">Holland · 2026</span>
 
-  <div class="hero">
+  <div>
     <h1 class="cover-title">零基础<br/><span class="accent">Vibe Coding</span></h1>
     <div class="cover-sub">从「脑子里有个想法」到「网上有人在用」，<br/>把创造一个产品的过程，压缩成一周。</div>
-  </div>
-
-  <div class="meta">
-    <div><b>总时长</b><div class="v">约 14 小时</div></div>
-    <div><b>结构</b><div class="v">3 Part · 8 章</div></div>
-    <div><b>动手项目</b><div class="v">SleepForest<br/>+ 你自己的 8 Stage</div></div>
-    <div><b>面向</b><div class="v">完全零基础<br/>想把脑洞跑起来的人</div></div>
   </div>
 
   <div class="glance">
     <div class="glance-card">
       <div class="eyebrow">你最后会得到</div>
-      <p class="big">一个在互联网上<br/>能被陌生人打开的产品。</p>
+      <p class="big">一个在互联网上能被陌生人打开的产品</p>
       <div class="sub">不是 Hello World，也不是 demo。是一个真的有人在用的东西。</div>
     </div>
     <div class="glance-card">
-      <div class="row">
-        <div>
-          <div class="eyebrow">参考案例</div>
-          <div class="big" style="font-size:22px;">小猫补光灯<br/>fly.pieter.com · Cal AI</div>
-        </div>
-      </div>
-      <div class="sub">一人 + AI + 一个周末，就能做出来的真实产品。本课程把它们的套路拆给你看。</div>
+      <div class="eyebrow">参考案例</div>
+      <p class="big">小猫补光灯 · fly.pieter.com · Cal AI</p>
+      <div class="sub">一人 + AI + 一个周末就能做出来的真实产品。本课把它们的套路拆给你看。</div>
     </div>
     <div class="glance-card">
-      <div class="row">
-        <div>
-          <div class="eyebrow">你需要的</div>
-          <div class="big" style="font-size:22px;">一台电脑<br/>一个 AI 编辑器</div>
-        </div>
-        <div class="num sm">¥ 0</div>
-      </div>
-      <div class="sub">没有前置的编程基础。八章下来，你会带着工作流、做过的产品和把它发出去的经验离开。</div>
+      <div class="eyebrow">你需要的</div>
+      <p class="big">一台电脑 · 一个 AI 编辑器 · ¥ 0</p>
+      <div class="sub">没有前置的编程基础。八章下来，带着工作流、做过的产品和发布的经验离开。</div>
     </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="meta">
+    <div><b>总时长</b><div class="v">约 14 小时</div></div>
+    <div><b>结构</b><div class="v">3 Part · 8 章</div></div>
+    <div><b>动手项目</b><div class="v">SleepForest + 你自己的 8 Stage</div></div>
+    <div><b>面向</b><div class="v">完全零基础 · 想把脑洞跑起来的人</div></div>
   </div>
 </section>
 
@@ -171,7 +139,7 @@
     <h2>目录</h2>
     <div class="sub">Table of Contents · 3 Part · 8 Ch</div>
   </div>
-  <div class="toc-cols" id="toc-cols"></div>
+  <div id="toc-content"></div>
   <div class="toc-foot">
     <span>零基础 Vibe Coding</span>
     <span>Holland · 2026</span>
@@ -180,54 +148,32 @@
 
 <script src="assets/course-data.js"></script>
 <script>
-  const cols = document.getElementById('toc-cols');
+  const root = document.getElementById('toc-content');
   const parts = new Map();
   COURSE.parts.forEach(p => parts.set(p.id, p));
-
-  // Group chapters by part
-  const groups = COURSE.parts.map(p => ({
-    part: p,
-    chapters: COURSE.chapters.filter(c => c.partId === p.id),
-  }));
-
-  // Split into 2 columns: Part 1+2 in col 1, Part 3 in col 2
-  // (If any column is very short/long, fall back to a chapter-count split.)
-  const totalCh = COURSE.chapters.length;
-  const half = Math.ceil(totalCh / 2);
-  let col1 = [], col2 = [], count = 0;
-  for (const g of groups) {
-    if (count + g.chapters.length <= half || col1.length === 0) {
-      col1.push(g);
-    } else {
-      col2.push(g);
-    }
-    count += g.chapters.length;
-  }
-
-  function renderCol(groups) {
-    let html = '';
-    groups.forEach(g => {
+  let html = '';
+  let lastPart = null;
+  COURSE.chapters.forEach(ch => {
+    if (ch.partId !== lastPart) {
+      const p = parts.get(ch.partId);
       html += `<div class="part-row">
-        <span class="eyebrow">${g.part.name} · ${g.part.hours}</span>
-        <span class="part-title">${g.part.title} — ${g.part.tagline}</span>
+        <span class="eyebrow">${p.name} · ${p.hours}</span>
+        <span class="part-title">${p.title} — ${p.tagline}</span>
       </div>`;
-      g.chapters.forEach(ch => {
-        const stars = '★'.repeat(ch.difficulty) + '☆'.repeat(5 - ch.difficulty);
-        html += `
-          <div class="toc-row">
-            <div class="toc-num">Ch ${ch.num}</div>
-            <div>
-              <div class="toc-t">${ch.title}</div>
-              <div class="toc-g">${ch.goal}</div>
-            </div>
-            <div class="toc-d">${ch.duration} · ${stars}</div>
-          </div>`;
-      });
-    });
-    return html;
-  }
-
-  cols.innerHTML = `<div class="toc-col">${renderCol(col1)}</div><div class="toc-col">${renderCol(col2)}</div>`;
+      lastPart = ch.partId;
+    }
+    const stars = '★'.repeat(ch.difficulty) + '☆'.repeat(5 - ch.difficulty);
+    html += `
+      <div class="toc-row">
+        <div class="toc-num">Ch ${ch.num}</div>
+        <div>
+          <div class="toc-t">${ch.title}</div>
+          <div class="toc-g">${ch.goal}</div>
+        </div>
+        <div class="toc-d">${ch.duration} · ${stars}</div>
+      </div>`;
+  });
+  root.innerHTML = html;
 </script>
 </body>
 </html>
