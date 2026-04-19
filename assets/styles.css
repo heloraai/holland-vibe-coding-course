@@ -202,17 +202,65 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--amber); outline
   .prose pre, .prose code { font-size: 10.5px !important; }
   .prose pre { padding: 12px !important; margin: 10px 0 !important; }
   .prose blockquote { margin: 12px 0 !important; padding: 2px 0 2px 14px !important; font-size: 13px !important; }
-  /* Cards / callouts — less padding, less margin */
-  .card { padding: 12px 14px !important; border-radius: 12px !important; }
+  /* Cards / callouts — tight padding so they fit on one page more often */
+  .card { padding: 10px 12px !important; border-radius: 10px !important; margin: 4px 0 !important; }
+  .prose > ul, .prose > ol { margin: 4px 0 8px !important; }
   section { margin: 0 !important; padding: 0 !important; }
   section + section { margin-top: 6px !important; }
-  /* Let blocks flow across page boundaries so pages fill naturally —
-     only short callouts/code stay together to avoid ugly 1-line orphans. */
-  .card, blockquote { break-inside: auto; page-break-inside: auto; }
-  pre { break-inside: auto; page-break-inside: auto; }
+
+  /* RULE OF THUMB:
+     - Small visual boxes (cards, callouts, blockquotes, homework) must NEVER split
+       — a half-box at the top or bottom of a page looks broken.
+     - Long containers (pre, section, the overall article) MAY flow across pages
+       so pages fill naturally instead of leaving big blank tails. */
+  .card, blockquote { break-inside: avoid !important; page-break-inside: avoid !important; }
+  /* Any inline-styled block that looks like a "card" (has a border-radius in its
+     inline style) must also stay together: Callout, Stage header, Homework, PolishDetail, etc. */
+  .prose div[style*="border-radius"] { break-inside: avoid !important; page-break-inside: avoid !important; }
+  .prose div[style*="borderRadius"]  { break-inside: avoid !important; page-break-inside: avoid !important; }
+  .prose div[style*="linear-gradient"] { break-inside: avoid !important; page-break-inside: avoid !important; }
+
+  /* CRITICAL: Chromium's print layout ignores break-inside on children of a
+     flex-column parent. Force vertical flex/grid stacks to behave as plain
+     blocks in print so the child cards can actually stay whole. */
+  .prose div[style*="flex-direction: column"],
+  .prose div[style*="flex-direction:column"] {
+    display: block !important;
+  }
+  .prose div[style*="flex-direction: column"] > * + *,
+  .prose div[style*="flex-direction:column"]  > * + * {
+    margin-top: 8px !important;
+  }
+
+  /* But `pre` (long code blocks) and `section` may flow */
+  pre { break-inside: auto !important; page-break-inside: auto !important; }
+  section { break-inside: auto !important; page-break-inside: auto !important; }
+  /* The top-level article itself must flow */
+  .prose, .print-article { break-inside: auto !important; page-break-inside: auto !important; }
+
+  /* Ch 5's `Stage` wrapper is a big bordered container. When kept together as a
+     single block it leaves huge blank tails. Visually flatten it in print so its
+     content flows naturally with the surrounding prose — no visible frame means
+     no broken frame. The internal STAGE pill + 验收 callout stay as inset blocks. */
+  .prose div[style*="border: 1px solid"][style*="border-radius: 16"] {
+    border: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 16px 0 !important;
+    background: transparent !important;
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+  .prose div[style*="border: 1px solid"][style*="border-radius: 14"] {
+    border-width: 1px !important;
+    padding: 12px 14px !important;
+    margin: 10px 0 !important;
+  }
+
   h1, h2, h3 { break-after: avoid; page-break-after: avoid; }
-  /* Prevent only the most egregious orphans — a heading alone at the bottom */
   h2, h3 { orphans: 3; widows: 3; }
+  /* Keep the first couple of lines of a paragraph with its heading */
+  p { orphans: 2; widows: 2; }
   /* New page per top-level chapter section when marked */
   .print-chapter-break { break-before: page; page-break-before: always; }
   /* Links: keep color readable in print */
