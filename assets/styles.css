@@ -25,7 +25,7 @@
   /* Typography */
   --f-serif:  'Noto Serif SC', ui-serif, Georgia, serif;
   --f-sans:   'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  --f-mono:   'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --f-mono:   'JetBrains Mono', ui-monospace, Menlo, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', monospace;
 
   --r-sm: 8px;
   --r-md: 14px;
@@ -232,8 +232,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--amber); outline
     margin-top: 8px !important;
   }
 
-  /* But `pre` (long code blocks) and `section` may flow */
-  pre { break-inside: auto !important; page-break-inside: auto !important; }
+  /* Keep short/medium code blocks together — only let truly long ones flow.
+     Chromium still splits pre if it's taller than a page, so `avoid` is safe
+     and removes the common case of a 10-line snippet getting sliced in two. */
+  pre { break-inside: avoid !important; page-break-inside: avoid !important; }
   section { break-inside: auto !important; page-break-inside: auto !important; }
   /* The top-level article itself must flow */
   .prose, .print-article { break-inside: auto !important; page-break-inside: auto !important; }
@@ -241,8 +243,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--amber); outline
   /* Ch 5's `Stage` wrapper is a big bordered container. When kept together as a
      single block it leaves huge blank tails. Visually flatten it in print so its
      content flows naturally with the surrounding prose — no visible frame means
-     no broken frame. The internal STAGE pill + 验收 callout stay as inset blocks. */
-  .prose div[style*="border: 1px solid"][style*="border-radius: 16"] {
+     no broken frame. The internal STAGE pill + 验收 callout stay as inset blocks.
+     Exclude .case-card: it's a small feature card that should keep its frame. */
+  .prose div[style*="border: 1px solid"][style*="border-radius: 16"]:not(.case-card) {
     border: 0 !important;
     border-radius: 0 !important;
     padding: 0 !important;

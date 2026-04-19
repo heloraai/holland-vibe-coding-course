@@ -120,8 +120,47 @@ function CCardList({ items }) {
   );
 }
 
+function CCaseCard({ emoji, name, tagline, whatItIs, results, how }) {
+  return (
+    <div className="case-card" style={{
+      margin: '22px 0', padding: '20px 22px',
+      background: 'linear-gradient(180deg, var(--amber-soft), #FFF9F0)',
+      border: '1px solid var(--amber)', borderRadius: 16,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 4 }}>
+        <div style={{ fontSize: 22 }}>{emoji}</div>
+        <div style={{ fontFamily: 'var(--f-serif)', fontSize: 22, fontWeight: 600, color: 'var(--ink)', letterSpacing: '-0.01em' }}>{name}</div>
+      </div>
+      <div style={{ fontSize: 12, color: 'var(--amber-ink)', fontFamily: 'var(--f-mono)', letterSpacing: 1.5, textTransform: 'uppercase', marginBottom: 14 }}>{tagline}</div>
+
+      <div className="eyebrow" style={{ color: 'var(--ink-3)' }}>它是什么</div>
+      <p style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--ink-2)', margin: '4px 0 14px' }}>{whatItIs}</p>
+
+      <div className="eyebrow" style={{ color: 'var(--ink-3)' }}>它拿到了什么结果</div>
+      <ul style={{ fontSize: 13.5, lineHeight: 1.85, color: 'var(--ink-2)', margin: '4px 0 14px', paddingLeft: 20 }}>
+        {results.map((r, i) => <li key={i}>{r}</li>)}
+      </ul>
+
+      <div className="eyebrow" style={{ color: 'var(--ink-3)' }}>他们是怎么做的</div>
+      <div style={{ marginTop: 6 }}>
+        {how.map((h, i) => (
+          <div key={i} style={{
+            fontSize: 13.5, lineHeight: 1.8, color: 'var(--ink-2)',
+            padding: '8px 0',
+            borderTop: i === 0 ? 'none' : '1px dashed rgba(0,0,0,0.08)',
+          }}>
+            <strong style={{ color: 'var(--ink)' }}>{h.step}</strong>
+            <span style={{ color: 'var(--ink-3)' }}> — </span>
+            {h.d}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // Expose helpers so per-chapter bodies can use them
-window.C = { Callout: CCallout, Homework: CHomework, CodeBlock: CCodeBlock, Compare: CCompare, CardList: CCardList };
+window.C = { Callout: CCallout, Homework: CHomework, CodeBlock: CCodeBlock, Compare: CCompare, CardList: CCardList, CaseCard: CCaseCard };
 
 // ---------- The reader ----------
 
