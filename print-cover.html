@@ -18,12 +18,13 @@
 
   /* ---- Cover (portrait A4 ≈ 210×297mm) ---- */
   .cover {
-    width: 100vw; height: 100vh;
-    padding: 40px 40px 32px;
-    display: flex; flex-direction: column; gap: 20px;
-    page-break-after: always;
+    width: 100vw; min-height: calc(100vh - 2px);
+    padding: 36px 40px 28px;
+    display: flex; flex-direction: column; gap: 18px;
+    page-break-after: always; break-after: page;
+    box-sizing: border-box;
   }
-  .cover .spacer { flex: 1; min-height: 12px; }
+  .cover .spacer { flex: 1; min-height: 8px; }
   .cover-tag {
     display: inline-block; padding: 6px 14px; border-radius: 999px;
     background: var(--amber-soft); color: var(--amber-ink);
@@ -63,10 +64,11 @@
 
   /* ---- TOC page ---- */
   .toc-page {
-    width: 100vw; min-height: 100vh;
+    width: 100vw;
     padding: 28px 36px 24px;
     page-break-before: always; break-before: page;
-    display: flex; flex-direction: column;
+    page-break-after: avoid; break-after: avoid;
+    display: block;
   }
   .toc-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; }
   .toc-head h2 { font-family: var(--f-serif); font-size: 26px; font-weight: 500; margin: 0; letter-spacing: -0.01em; }
@@ -86,7 +88,7 @@
   .toc-d   { font-family: var(--f-mono); font-size: 9.5px; color: var(--ink-3); letter-spacing: 1px; white-space: nowrap; }
 
   .toc-foot {
-    margin-top: auto; padding-top: 10px;
+    margin-top: 16px; padding-top: 10px;
     border-top: 1px solid var(--line-soft);
     display: flex; justify-content: space-between;
     font-size: 10px; color: var(--ink-3);

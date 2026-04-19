@@ -206,9 +206,13 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--amber); outline
   .card { padding: 12px 14px !important; border-radius: 12px !important; }
   section { margin: 0 !important; padding: 0 !important; }
   section + section { margin-top: 6px !important; }
-  /* Avoid breaking inside small structural units */
-  .card, blockquote, pre { break-inside: avoid; page-break-inside: avoid; }
+  /* Let blocks flow across page boundaries so pages fill naturally —
+     only short callouts/code stay together to avoid ugly 1-line orphans. */
+  .card, blockquote { break-inside: auto; page-break-inside: auto; }
+  pre { break-inside: auto; page-break-inside: auto; }
   h1, h2, h3 { break-after: avoid; page-break-after: avoid; }
+  /* Prevent only the most egregious orphans — a heading alone at the bottom */
+  h2, h3 { orphans: 3; widows: 3; }
   /* New page per top-level chapter section when marked */
   .print-chapter-break { break-before: page; page-break-before: always; }
   /* Links: keep color readable in print */
