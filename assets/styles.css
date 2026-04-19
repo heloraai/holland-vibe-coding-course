@@ -171,3 +171,46 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--amber); outline
 
 @keyframes pulseDot { 0%,100% { opacity: 0.4 } 50% { opacity: 1 } }
 .pulse-dot { animation: pulseDot 2s infinite; }
+
+/* ───────── Print styles (used when generating PDF) ───────── */
+@media print {
+  :root { --bg: #FFFFFF; }
+  html, body {
+    background: #FFFFFF !important;
+    background-image: none !important;
+    font-size: 11.5px;
+    line-height: 1.65;
+  }
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  /* Kill site chrome */
+  .nav, .no-print { display: none !important; }
+  /* Single-column article layout */
+  .print-grid { display: block !important; grid-template-columns: none !important; padding: 0 !important; }
+  .print-article { max-width: 100% !important; }
+  /* Prose tweaks */
+  .prose h2 { margin: 32px 0 14px !important; font-size: 22px !important; }
+  .prose h3 { margin: 22px 0 10px !important; font-size: 15px !important; }
+  .prose p  { font-size: 13px !important; line-height: 1.7 !important; }
+  .prose pre, .prose code { font-size: 11px !important; }
+  /* Avoid breaking inside small structural units */
+  .card, blockquote, pre, section { break-inside: avoid; page-break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; page-break-after: avoid; }
+  /* New page per top-level chapter section when marked */
+  .print-chapter-break { break-before: page; page-break-before: always; }
+  /* Links: keep color readable in print */
+  a { color: inherit; text-decoration: none; }
+}
+@page { size: A4 landscape; margin: 14mm 18mm; }
+
+/* Landscape-specific print tweaks: use 2 columns for body prose so lines aren't absurdly long */
+@media print {
+  .print-article { column-count: 2; column-gap: 28px; column-fill: balance; }
+  .print-article h1, .print-article h2, .print-article h3,
+  .print-article pre, .print-article .card, .print-article blockquote {
+    break-inside: avoid; column-span: all;
+  }
+  .print-article h2 { margin-top: 18px !important; }
+}

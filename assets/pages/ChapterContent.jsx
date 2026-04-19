@@ -186,18 +186,18 @@ function ChapterContent() {
       </div>
 
       {/* Main layout */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '20px 32px 120px', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 64 }}>
-        <div style={{ position: 'sticky', top: 80, alignSelf: 'start', maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
+      <div className="print-grid" style={{ maxWidth: 1100, margin: '0 auto', padding: '20px 32px 120px', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 64 }}>
+        <div className="no-print" style={{ position: 'sticky', top: 80, alignSelf: 'start', maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
           <CTOC items={sections} active={active} onClick={scrollTo} />
         </div>
 
-        <article className="prose" style={{ maxWidth: 680 }}>
+        <article className="prose print-article" style={{ maxWidth: 680 }}>
           <Body />
 
           {homework.length > 0 && <CHomework items={homework} />}
 
           {/* Chapter nav */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 60, paddingTop: 30, borderTop: '1px solid var(--line)', gap: 20 }}>
+          <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', marginTop: 60, paddingTop: 30, borderTop: '1px solid var(--line)', gap: 20 }}>
             {prev ? (
               <a href={hrefFor(prev)} style={{ textDecoration: 'none' }}>
                 <div style={{ fontSize: 11, color: 'var(--ink-3)', fontFamily: 'var(--f-mono)', letterSpacing: 2 }}>← 上一章</div>

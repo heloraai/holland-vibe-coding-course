@@ -226,8 +226,8 @@ function ChapterReader() {
       </div>
 
       {/* Main layout */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '20px 32px 120px', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 64 }}>
-        <div style={{ position: 'sticky', top: 80, alignSelf: 'start', maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
+      <div className="print-grid" style={{ maxWidth: 1100, margin: '0 auto', padding: '20px 32px 120px', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 64 }}>
+        <div className="no-print" style={{ position: 'sticky', top: 80, alignSelf: 'start', maxHeight: 'calc(100vh - 100px)', overflowY: 'auto' }}>
           <TOC items={sections} active={active} onClick={scrollTo} />
           <div style={{ marginTop: 32, padding: 16, background: 'var(--bg-2)', borderRadius: 12, fontSize: 12, color: 'var(--ink-3)', lineHeight: 1.7 }}>
             <div style={{ fontFamily: 'var(--f-mono)', fontSize: 10, letterSpacing: 2, marginBottom: 8, color: 'var(--amber-ink)' }}>章末交付物</div>
@@ -588,7 +588,7 @@ async function refreshLine() {
           </section>
 
           {/* Chapter nav */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 60, paddingTop: 30, borderTop: '1px solid var(--line)' }}>
+          <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', marginTop: 60, paddingTop: 30, borderTop: '1px solid var(--line)' }}>
             <a href="chapter.html?ch=4" style={{ textDecoration: 'none' }}>
               <div style={{ fontSize: 11, color: 'var(--ink-3)', fontFamily: 'var(--f-mono)', letterSpacing: 2 }}>← 上一章</div>
               <div className="serif" style={{ fontSize: 18, color: 'var(--ink)', marginTop: 4 }}>Ch 04 · 认识 Agent</div>

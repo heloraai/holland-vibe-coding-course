@@ -2,3 +2,6 @@
 .playwright-mcp/
 node_modules/
 .vercel
+
+# Generated PDF build artifacts (intermediate files only — the final PDF is committed)
+pdf-build/
