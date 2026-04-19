@@ -118,15 +118,6 @@ function Home() {
         {/* Hero illustration — the SleepForest preview, idle */}
         <div style={{ position: 'relative' }}>
           <SleepForestDemo height={420} defaultScene="FOREST" />
-          <div style={{
-            position: 'absolute', bottom: -16, left: 16,
-            background: 'var(--bg)', padding: '8px 14px', borderRadius: 999,
-            border: '1px solid var(--line)', fontSize: 11,
-            fontFamily: 'var(--f-mono)', letterSpacing: 1, color: 'var(--ink-2)',
-            boxShadow: '0 8px 24px -10px rgba(43,36,30,0.15)',
-          }}>
-            本课主例 · SleepForest · 可点击试玩 ↑
-          </div>
         </div>
       </div>
 

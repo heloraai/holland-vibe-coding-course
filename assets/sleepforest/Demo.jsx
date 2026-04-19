@@ -472,21 +472,20 @@ function SleepForestDemo({ height = 560, defaultScene = 'RAIN' }) {
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         pointerEvents: 'none', zIndex: 15,
       }}>
-        {/* Bubble: only shown in INTRO or STORY */}
-        <div style={{
-          maxWidth: '80%', background: 'rgba(255,255,255,0.1)',
-          backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-          padding: '14px 22px', borderRadius: 20,
-          border: '1px solid rgba(255,255,255,0.08)', marginBottom: 28,
-          fontSize: 13, lineHeight: 1.75, textAlign: 'center', fontWeight: 300,
-          color: 'rgba(255,255,255,0.9)', textShadow: '0 2px 8px rgba(0,0,0,0.3)',
-          transition: 'opacity 1s, transform 1s',
-          opacity: (narrativePhase === NP.INTRO || narrativePhase === NP.STORY) ? 1 : 0,
-          transform: (narrativePhase === NP.INTRO || narrativePhase === NP.STORY)
-            ? 'translateY(0) scale(1)' : 'translateY(10px) scale(0.96)',
-        }}>
-          {characterText}
-        </div>
+        {/* Bubble: only during STORY phase. INTRO bubble removed — it kept blocking the character. */}
+        {narrativePhase === NP.STORY && (
+          <div style={{
+            maxWidth: '80%', background: 'rgba(255,255,255,0.1)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            padding: '14px 22px', borderRadius: 20,
+            border: '1px solid rgba(255,255,255,0.08)', marginBottom: 28,
+            fontSize: 13, lineHeight: 1.75, textAlign: 'center', fontWeight: 300,
+            color: 'rgba(255,255,255,0.9)', textShadow: '0 2px 8px rgba(0,0,0,0.3)',
+            transition: 'opacity 1s, transform 1s',
+          }}>
+            {characterText}
+          </div>
+        )}
 
         {/* Character */}
         <div style={{ filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))' }}>
