@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Coding 零基础课</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4ede0;--paper-2:#ebe2cf;--paper-3:#ddd1b6;
+  --ink:#1a1a1a;--ink-soft:#3a3a38;--ink-mute:#6b665c;
+  --accent:#2d5f3f;--accent-hot:#d4481e;--glow:#8fd14f;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:'Noto Sans SC','Noto Serif SC',sans-serif;
+  font-size:17px;line-height:1.85;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.7;
+  background-image:
+    radial-gradient(circle at 20% 30%,rgba(26,26,26,.03) 1px,transparent 2px),
+    radial-gradient(circle at 70% 60%,rgba(26,26,26,.025) 1px,transparent 2px);
+  background-size:40px 40px,55px 55px;
+}
+a{color:inherit;text-decoration:none;}
+.serif{font-family:'Noto Serif SC','Fraunces',serif;}
+.mono{font-family:'JetBrains Mono',monospace;}
+.italic{font-family:'Fraunces',serif;font-style:italic;font-weight:400;}
+
+/* -------- 按钮 -------- */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 28px;
+  font-family:'Noto Sans SC',sans-serif;font-size:15px;font-weight:500;
+  border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);
+  cursor:pointer;transition:all .2s;text-decoration:none;
+}
+.btn:hover{background:var(--accent);border-color:var(--accent);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);}
+.btn-ghost{background:transparent;color:var(--ink);}
+.btn-ghost:hover{background:var(--paper-2);color:var(--ink);border-color:var(--ink);}
+.btn-sm{padding:10px 18px;font-size:13px;}
+
+/* -------- 导航 -------- */
+nav{
+  position:sticky;top:0;z-index:100;
+  padding:16px 48px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--ink);
+  background:var(--paper);
+}
+.logo{font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:20px;}
+.logo::before{content:'— ';color:var(--accent-hot);}
+.nav-r{display:flex;gap:16px;align-items:center;}
+.nav-meta{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);
+}
+
+/* -------- 页面切换系统 -------- */
+.page{display:none;position:relative;z-index:5;}
+.page.active{display:block;}
+
+/* ============ 主页样式 ============ */
+.hero{padding:90px 48px 70px;border-bottom:1px solid var(--ink);}
+.hero-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:64px;max-width:1400px;margin:0 auto;align-items:center;}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:28px;display:flex;align-items:center;gap:12px;}
+.hero-tag::before{content:'';display:inline-block;width:40px;height:1px;background:var(--ink);}
+.hero h1{font-family:'Noto Serif SC',serif;font-size:clamp(52px,7vw,100px);line-height:.96;letter-spacing:-.035em;font-weight:500;margin-bottom:28px;}
+.hero h1 .hot{font-family:'Fraunces',serif;font-style:italic;font-weight:400;color:var(--accent-hot);}
+.hero-sub{font-size:20px;line-height:1.7;max-width:620px;color:var(--ink-soft);margin-bottom:16px;}
+.hero-sub em{font-style:italic;color:var(--accent);font-weight:500;}
+.hero-sub2{font-size:16px;line-height:1.8;max-width:620px;color:var(--ink-mute);margin-bottom:36px;}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;}
+
+.terminal{
+  background:#141414;border:1.5px solid var(--ink);
+  font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#e6e2d3;
+  box-shadow:10px 10px 0 var(--ink);
+}
+.terminal-bar{background:#1f1f1f;padding:10px 14px;display:flex;gap:6px;align-items:center;border-bottom:1px solid #2a2a2a;}
+.terminal-bar .d{width:10px;height:10px;border-radius:50%;}
+.terminal-bar .r{background:#ff5f57;}.terminal-bar .y{background:#febc2e;}.terminal-bar .g{background:#28c840;}
+.terminal-bar .tt{margin-left:auto;font-size:10px;color:#888;letter-spacing:.1em;}
+.terminal-body{padding:22px 20px;}
+.t-line{display:block;}
+.t-p{color:var(--glow);}.t-u{color:#e6e2d3;}.t-a{color:#9cb9d6;}.t-ok{color:var(--glow);}.t-c{color:#6b665c;font-style:italic;}
+.cursor{display:inline-block;width:8px;height:14px;background:var(--glow);vertical-align:-2px;animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+
+.marquee{background:var(--ink);color:var(--paper);padding:20px 0;overflow:hidden;position:relative;z-index:5;}
+.marquee-track{display:flex;white-space:nowrap;animation:slide 35s linear infinite;font-family:'Fraunces',serif;font-style:italic;font-size:24px;}
+.marquee-track span{padding:0 32px;display:inline-flex;align-items:center;gap:32px;}
+.marquee-track span::after{content:'✦';color:var(--accent-hot);font-size:14px;font-style:normal;}
+@keyframes slide{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* 主页 section 通用 */
+.sec{padding:100px 48px;border-bottom:1px solid var(--ink);}
+.container{max-width:1280px;margin:0 auto;}
+.sec-head{display:grid;grid-template-columns:120px 1fr;gap:48px;margin-bottom:56px;align-items:start;}
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.1em;color:var(--ink-mute);padding-top:14px;border-top:2px solid var(--ink);}
+.sec-title{font-family:'Noto Serif SC',serif;font-size:clamp(36px,5vw,60px);line-height:1.05;letter-spacing:-.02em;font-weight:500;}
+
+/* 章节入口卡片 */
+.part-group{margin-bottom:48px;}
+.part-banner{display:grid;grid-template-columns:100px 1fr auto;gap:24px;align-items:baseline;padding:24px 0 18px;border-bottom:2px solid var(--ink);margin-bottom:16px;}
+.part-banner .tag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.15em;color:var(--accent);font-weight:700;}
+.part-banner .title{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:500;line-height:1.2;}
+.part-banner .time{font-family:'Fraunces',serif;font-style:italic;font-size:22px;color:var(--accent-hot);}
+.part-sub{font-size:15px;color:var(--ink-mute);margin-bottom:24px;padding-left:124px;line-height:1.7;}
+
+.ch-card{
+  border:1.5px solid var(--ink);margin-bottom:14px;background:var(--paper);
+  cursor:pointer;transition:all .2s;display:grid;
+  grid-template-columns:80px 1fr auto auto;gap:20px;align-items:center;padding:22px 28px;
+}
+.ch-card:hover{background:var(--ink);color:var(--paper);transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--ink);}
+.ch-card:hover .ch-num,.ch-card:hover .ch-meta{color:var(--glow);}
+.ch-card:hover .ch-arrow{color:var(--paper);}
+.ch-num{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent-hot);font-weight:700;transition:color .2s;}
+.ch-title{font-family:'Noto Serif SC',serif;font-size:20px;font-weight:500;line-height:1.35;}
+.ch-meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-mute);display:flex;gap:14px;white-space:nowrap;transition:color .2s;}
+.ch-arrow{font-size:22px;color:var(--ink-mute);transition:color .2s,transform .2s;}
+.ch-card:hover .ch-arrow{transform:translateX(4px);}
+
+/* ============ 章节详情页 ============ */
+.ch-page-header{
+  padding:60px 48px 48px;
+  border-bottom:1px solid var(--ink);
+  background:var(--paper-2);
+}
+.ch-page-header .back{
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;
+  color:var(--accent);cursor:pointer;margin-bottom:28px;display:inline-flex;align-items:center;gap:8px;
+  border:none;background:none;padding:8px 0;transition:color .2s;
+}
+.ch-page-header .back:hover{color:var(--accent-hot);}
+.ch-page-meta{
+  display:flex;gap:20px;margin-bottom:20px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-mute);
+}
+.ch-page-meta .badge{
+  background:var(--accent-hot);color:var(--paper);padding:4px 12px;font-weight:500;letter-spacing:.08em;
+}
+.ch-page-title{
+  font-family:'Noto Serif SC',serif;font-size:clamp(36px,5vw,56px);font-weight:500;
+  line-height:1.1;letter-spacing:-.02em;margin-bottom:20px;max-width:900px;
+}
+.ch-page-subtitle{
+  font-size:19px;line-height:1.7;color:var(--ink-soft);max-width:740px;
+}
+
+.ch-content{
+  max-width:820px;margin:0 auto;padding:60px 48px 100px;
+}
+.ch-content h2{
+  font-family:'Noto Serif SC',serif;font-size:30px;font-weight:500;
+  line-height:1.2;margin:64px 0 24px;padding-bottom:14px;
+  border-bottom:2px solid var(--ink);letter-spacing:-.01em;
+}
+.ch-content h2:first-child{margin-top:0;}
+.ch-content h3{
+  font-family:'Noto Serif SC',serif;font-size:22px;font-weight:500;
+  line-height:1.3;margin:40px 0 16px;color:var(--accent);
+}
+.ch-content p{
+  font-size:17px;line-height:1.9;margin-bottom:20px;color:var(--ink-soft);
+}
+.ch-content p strong{color:var(--ink);font-weight:700;}
+.ch-content p em{font-family:'Fraunces',serif;font-style:italic;color:var(--accent);font-weight:500;}
+
+/* 讲义组件 */
+.callout{
+  padding:24px 28px;margin:28px 0;border-left:4px solid var(--accent);background:var(--paper-2);
+}
+.callout.warn{border-left-color:var(--accent-hot);}
+.callout.dark{
+  background:#1a1a1a;color:var(--paper);border-left-color:var(--glow);
+}
+.callout .callout-tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;
+  text-transform:uppercase;margin-bottom:10px;font-weight:700;
+}
+.callout .callout-tag.green{color:var(--glow);}
+.callout .callout-tag.red{color:var(--accent-hot);}
+.callout .callout-tag.blue{color:var(--accent);}
+.callout p{color:inherit;margin-bottom:12px;}
+.callout p:last-child{margin-bottom:0;}
+
+.versus{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1.5px solid var(--ink);margin:32px 0;
+}
+.versus-col{padding:28px 24px;}
+.versus-col:first-child{border-right:1.5px solid var(--ink);background:var(--paper-2);}
+.versus-label{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;
+  text-transform:uppercase;margin-bottom:12px;font-weight:700;
+}
+.versus-label.bad{color:var(--accent-hot);}
+.versus-label.good{color:var(--accent);}
+.versus-col p{font-size:15px;line-height:1.75;margin-bottom:8px;}
+.versus-col pre{
+  font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.7;
+  background:#1a1a1a;color:#e6e2d3;padding:16px 18px;margin:12px 0;overflow-x:auto;white-space:pre-wrap;
+}
+
+.step-list{margin:28px 0;counter-reset:steps;}
+.step{
+  display:grid;grid-template-columns:56px 1fr;gap:16px;
+  padding:24px 0;border-bottom:1px solid var(--paper-3);
+  counter-increment:steps;
+}
+.step:last-child{border-bottom:none;}
+.step-num{
+  font-family:'Fraunces',serif;font-style:italic;font-size:40px;font-weight:300;
+  color:var(--accent-hot);line-height:1;padding-top:4px;
+}
+.step-num::before{content:counter(steps,decimal-leading-zero);}
+.step h4{font-family:'Noto Serif SC',serif;font-size:19px;font-weight:500;margin-bottom:8px;}
+.step p{font-size:15px;line-height:1.8;color:var(--ink-soft);margin-bottom:6px;}
+
+.img-placeholder{
+  background:var(--paper-3);border:1px dashed var(--ink-mute);
+  padding:40px 24px;text-align:center;margin:28px 0;
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-mute);
+  letter-spacing:.08em;
+}
+
+.faq{margin:40px 0;}
+.faq-item{border-bottom:1px solid var(--paper-3);padding:20px 0;}
+.faq-q{
+  font-family:'Noto Serif SC',serif;font-size:18px;font-weight:500;
+  margin-bottom:8px;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:12px;
+}
+.faq-q::before{content:'Q';font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent-hot);font-weight:700;background:var(--paper-2);width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;flex-shrink:0;}
+.faq-a{font-size:16px;line-height:1.8;color:var(--ink-soft);padding-left:40px;}
+
+.ch-nav-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:48px 0;margin-top:60px;border-top:2px solid var(--ink);gap:20px;
+}
+.ch-nav-bottom .btn{flex-shrink:0;}
+
+/* 交付物块 */
+.deliver{
+  background:#1a1a1a;color:var(--paper);padding:28px 32px;margin:32px 0;
+}
+.deliver .deliver-tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--glow);
+  letter-spacing:.15em;margin-bottom:12px;font-weight:500;
+}
+.deliver p{color:rgba(244,237,224,.9);margin-bottom:8px;}
+.deliver p:last-child{margin-bottom:0;}
+.deliver ul{list-style:none;padding:0;}
+.deliver ul li{
+  padding:6px 0 6px 20px;position:relative;
+  font-size:15px;color:rgba(244,237,224,.85);
+}
+.deliver ul li::before{content:'✓';position:absolute;left:0;color:var(--glow);font-weight:700;}
+
+/* CTA */
+.cta{background:var(--ink);color:var(--paper);padding:120px 48px;text-align:center;}
+.cta-kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;color:var(--glow);margin-bottom:28px;text-transform:uppercase;}
+.cta h2{font-family:'Noto Serif SC',serif;font-size:clamp(40px,6vw,80px);line-height:1.08;letter-spacing:-.03em;font-weight:500;margin-bottom:28px;}
+.cta h2 .hot{font-family:'Fraunces',serif;font-style:italic;font-weight:400;color:var(--glow);}
+.cta p{font-size:18px;color:rgba(244,237,224,.8);max-width:600px;margin:0 auto 40px;line-height:1.75;}
+.cta .btn{background:var(--glow);border-color:var(--glow);color:var(--ink);padding:20px 40px;}
+.cta .btn:hover{background:var(--paper);border-color:var(--paper);box-shadow:4px 4px 0 var(--glow);}
+
+footer{padding:40px 48px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--ink-mute);text-transform:uppercase;display:flex;justify-content:space-between;}
+
+@media(max-width:900px){
+  nav{padding:14px 20px;}
+  .hero,.sec,.ch-page-header,.cta{padding-left:20px;padding-right:20px;}
+  .hero-grid{grid-template-columns:1fr;gap:40px;}
+  .sec-head{grid-template-columns:1fr;gap:16px;}
+  .ch-card{grid-template-columns:1fr auto;gap:10px;padding:18px 20px;}
+  .ch-card .ch-num,.ch-card .ch-meta{display:none;}
+  .part-banner{grid-template-columns:1fr;gap:8px;}
+  .part-sub{padding-left:0;}
+  .ch-content{padding:40px 20px 80px;}
+  .versus{grid-template-columns:1fr;}
+  .versus-col:first-child{border-right:none;border-bottom:1.5px solid var(--ink);}
+  .chapter-inner{grid-template-columns:1fr;}
+  .ch-nav-bottom{flex-direction:column;gap:12px;}
+  .ch-nav-bottom .btn{width:100%;justify-content:center;}
+  footer{flex-direction:column;gap:10px;text-align:center;padding:30px 20px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" onclick="showPage('home')">Vibe Coding 零基础课</a>
+  <div class="nav-r">
+    <span class="nav-meta">8 章 · 14 小时</span>
+    <button class="btn btn-sm" onclick="showPage('home')">回到主页</button>
+  </div>
+</nav>
+
+<!-- ===================== 主页 ===================== -->
+<div id="page-home" class="page active">
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-tag">一门课,给没写过代码的你</div>
+      <h1>你<span class="hot">脑子里</span>那个想法,<br>这礼拜就能<span class="hot">活过来</span>。</h1>
+      <p class="hero-sub">如果你经常想"要是有个 App 能帮我 XX 就好了"—— 以前这个念头只能到此为止,因为学代码要三年。<em>现在不用了</em>。</p>
+      <p class="hero-sub2">这门课教你:怎么用嘴(不是用键盘)告诉 AI 你要什么、怎么让它做出来、怎么挂到网上让朋友真的能打开。</p>
+      <div class="hero-actions">
+        <button class="btn" onclick="showPage('ch1')">从第 1 章开始 <span>→</span></button>
+        <a href="#syllabus-section" class="btn btn-ghost">看看都学点啥 <span>↓</span></a>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="terminal-bar"><span class="d r"></span><span class="d y"></span><span class="d g"></span><span class="tt">你和 AI 的一次对话</span></div>
+      <div class="terminal-body">
+        <span class="t-line"><span class="t-c"># 2026 年的"写代码"长这样</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-p">你 ›</span> <span class="t-u">默认时长太长了,</span></span>
+        <span class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-u">改成 15 分钟吧</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-a">AI ✦ 好,我看到了那段代码</span></span>
+        <span class="t-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="t-a">改了,要我跑一遍看看吗?</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-p">你 ›</span> <span class="t-u">跑</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-ok">✓ 改好了,现在是 15 分钟</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-p">你 ›</span> <span class="cursor"></span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee"><div class="marquee-track"><span>说人话就行</span><span>不用背命令</span><span>品味比代码重要</span><span>一周上线</span><span>先看再动手</span><span>说人话就行</span><span>不用背命令</span><span>品味比代码重要</span><span>一周上线</span><span>先看再动手</span></div></div>
+
+<section class="sec" id="syllabus-section">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-num">课程大纲</div>
+      <div>
+        <h2 class="sec-title">8 章,<span class="italic">14 小时</span>,<br>从零到上线。</h2>
+        <p style="font-size:19px;color:var(--ink-soft);margin-top:24px;max-width:680px;line-height:1.75;">点击任意一章,进入完整讲义 —— 有知识讲解、案例对比、实操步骤、FAQ,一章一章完整学完。</p>
+      </div>
+    </div>
+
+    <!-- PART 1 -->
+    <div class="part-group">
+      <div class="part-banner"><div class="tag">PART 01</div><div class="title">先想明白 —— 不动手,只听</div><div class="time">~ 2h</div></div>
+      <div class="part-sub">前两章你只需要听和看。让你知道这事儿到底怎么回事、自己想做个啥。</div>
+      <div class="ch-card" onclick="showPage('ch1')"><div class="ch-num">CH 01</div><div class="ch-title">Vibe Coding 到底是啥,为啥最近大家都在聊</div><div class="ch-meta"><span>45 分钟</span><span>☆☆☆☆☆</span></div><div class="ch-arrow">→</div></div>
+      <div class="ch-card" onclick="showPage('ch2')"><div class="ch-num">CH 02</div><div class="ch-title">你到底想做个啥 —— 把想法压缩成一句话</div><div class="ch-meta"><span>60 分钟</span><span>★☆☆☆☆</span></div><div class="ch-arrow">→</div></div>
+    </div>
+
+    <!-- PART 2 -->
+    <div class="part-group">
+      <div class="part-banner"><div class="tag">PART 02</div><div class="title">跟着 SleepForest 走完一遍</div><div class="time">~ 6h</div></div>
+      <div class="part-sub">跟着我把一个真实的助眠 App 从零做到上线,看每一步怎么做、为什么。</div>
+      <div class="ch-card" onclick="showPage('ch3')"><div class="ch-num">CH 03</div><div class="ch-title">先画个样子出来 —— 不写代码,光聊天就行</div><div class="ch-meta"><span>90 分钟</span><span>★★☆☆☆</span></div><div class="ch-arrow">→</div></div>
+      <div class="ch-card" onclick="showPage('ch4')"><div class="ch-num">CH 04</div><div class="ch-title">认识 Codex —— 第一次让 AI 直接改你的项目</div><div class="ch-meta"><span>90 分钟</span><span>★★☆☆☆</span></div><div class="ch-arrow">→</div></div>
+      <div class="ch-card" onclick="showPage('ch5')"><div class="ch-num">CH 05</div><div class="ch-title">从原型到真产品 —— 全课最重的一章</div><div class="ch-meta"><span>3 小时</span><span>★★★☆☆</span></div><div class="ch-arrow">→</div></div>
+      <div class="ch-card" onclick="showPage('ch6')"><div class="ch-num">CH 06</div><div class="ch-title">挂到网上 —— 让它变成一个能发给别人的链接</div><div class="ch-meta"><span>90 分钟</span><span>★★☆☆☆</span></div><div class="ch-arrow">→</div></div>
+    </div>
+
+    <!-- PART 3 -->
+    <div class="part-group">
+      <div class="part-banner"><div class="tag">PART 03</div><div class="title">轮到你自己做一个</div><div class="time">~ 6h</div></div>
+      <div class="part-sub">前面跟着做了一遍,现在独立来一次。做出属于你自己的东西。</div>
+      <div class="ch-card" onclick="showPage('ch7')"><div class="ch-num">CH 07</div><div class="ch-title">从零做一个属于你自己的小项目</div><div class="ch-meta"><span>4-6 小时</span><span>★★★★☆</span></div><div class="ch-arrow">→</div></div>
+      <div class="ch-card" onclick="showPage('ch8')"><div class="ch-num">CH 08</div><div class="ch-title">接下来 3 个月怎么走 —— 你一个人也不会停</div><div class="ch-meta"><span>60 分钟</span><span>—</span></div><div class="ch-arrow">→</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-kicker">▸ 准备好了?</div>
+  <h2>那就<span class="hot">开始</span>吧。</h2>
+  <p>从第一章开始,不用怕,这章连手都不用动,就坐着听 45 分钟。</p>
+  <button class="btn" onclick="showPage('ch1')">开始第 1 章 →</button>
+</section>
+
+<footer><span>Vibe Coding 零基础课 · v1.0 · 2026</span><span>made with Codex + ☕</span></footer>
+</div>
+
+
+<!-- ===================== CH 1 ===================== -->
+<div id="page-ch1" class="page">
+<div class="ch-page-header">
+  <button class="back" onclick="showPage('home')">← 回到课程主页</button>
+  <div class="ch-page-meta">
+    <span class="badge mono">CH 01</span>
+    <span>PART 01 · 心法与准备</span>
+    <span>45 分钟</span>
+    <span>难度:☆☆☆☆☆</span>
+    <span>不用动手,躺着听</span>
+  </div>
+  <h1 class="ch-page-title">Vibe Coding 到底是啥,<br>为啥最近大家都在聊这个</h1>
+  <p class="ch-page-subtitle">听完这 45 分钟,你不会学到任何技术细节 —— 但你会有一种"这事儿我也能干"的感觉。这种感觉比任何知识点都值钱。</p>
+</div>
+
+<div class="ch-content">
+
+<h2>一、先讲个故事:一条推特怎么就改变了规则</h2>
+
+<p>2024 年 2 月,一个叫 Andrej Karpathy 的人发了条推特。这人是谁你不用记,你只需要知道他是 AI 领域最顶级的那几个人之一 —— 以前是特斯拉自动驾驶的老大,再之前在 OpenAI 干。</p>
+
+<p>他说了一句大概意思是这样的话:</p>
+
+<div class="callout">
+<p style="font-family:'Fraunces',serif;font-style:italic;font-size:22px;line-height:1.5;color:var(--accent);">"我最近写代码,完全是跟着感觉走(vibing)。让 AI 去写,我连代码都不看了。如果有 bug,我就把报错信息直接丢回给 AI,让它自己修。有时候它修不好,我就绕过去或者随便改改,直到它好为止。代码能不能完全理解已经不重要了。"</p>
+</div>
+
+<p>这条推一发出来,整个科技圈炸了。不是因为他说了什么惊天秘密,而是因为 —— <strong>连这种级别的大佬都不"写"代码了,那"写代码"这件事到底还存在吗?</strong></p>
+
+<p>"Vibe Coding"这个词就是从这条推里来的。Vibe = 感觉、氛围。Vibe Coding = 跟着感觉做东西,而不是一行行地敲代码。</p>
+
+<p>听起来好像很随便对吧?但这背后其实是一个很严肃的变化:AI 的编程能力,在过去一两年里突然越过了一条线 —— 从"能帮你补全代码"变成了"能帮你从头写一个完整的项目"。这条线一过,规则就变了。</p>
+
+
+<h2>二、到底变了啥?从"写代码"到"描述意图"</h2>
+
+<p>最简单的理解方式就是看一个对比。</p>
+
+<p>假设你想在一个网页上加一个按钮,按下去会显示"你好"。</p>
+
+<div class="versus">
+  <div class="versus-col">
+    <div class="versus-label bad">以前的做法 · 传统编程</div>
+    <p>你得知道 HTML 是啥、JavaScript 是啥、DOM 是啥、事件监听是啥。然后你要写类似下面这堆东西:</p>
+    <pre>&lt;button id="greet"&gt;点我&lt;/button&gt;
+&lt;p id="msg"&gt;&lt;/p&gt;
+&lt;script&gt;
+  document.getElementById('greet')
+    .addEventListener('click', () =&gt; {
+      document.getElementById('msg')
+        .textContent = '你好';
+    });
+&lt;/script&gt;</pre>
+    <p>如果你是小白,光看这几行就已经懵了:为啥有尖括号?为啥有引号?getElementById 是什么鬼?</p>
+  </div>
+  <div class="versus-col">
+    <div class="versus-label good">现在的做法 · Vibe Coding</div>
+    <p>你跟 AI 说一句话:</p>
+    <pre>"加一个按钮,按下去显示'你好'"</pre>
+    <p>AI 帮你写完那堆代码,你只需要看结果:<strong>按钮出来了吗?按下去显示的对不对?</strong>如果不对,你再说"文字太小了,换大一点" —— AI 继续帮你改。</p>
+    <p style="margin-top:16px;color:var(--accent);font-weight:500;">你全程没写一行代码。你做的事是:描述 → 判断 → 再描述。</p>
+  </div>
+</div>
+
+<p>看到了吗?变化不是"换了一种编程语言",而是<strong>你的角色变了</strong>。你从"施工工人"变成了"甲方" —— 你负责说你要什么、看它做得对不对、哪里需要改。AI 是"施工队",它负责具体的敲敲打打。</p>
+
+<div class="callout">
+<div class="callout-tag blue">打个比方</div>
+<p>以前学编程 = 自己盖房子。你得学砌砖、学水电、学装修。光学砌砖就要半年,等学到能盖出一面完整的墙,很多人已经放弃了。</p>
+<p>Vibe Coding = 跟装修师傅说需求。"客厅要暖色调、厨房加个岛台、卧室灯光要暗一点。" 你不需要知道电线怎么走,但你需要知道<strong>你想住什么样的房子</strong>。</p>
+</div>
+
+
+<h2>三、为什么偏偏是现在?三条线同时撞上了</h2>
+
+<p>Vibe Coding 不是突然冒出来的概念。它能在 2024-2025 年突然爆发,是因为三件事同时到位了:</p>
+
+<h3>第一条线:AI 突然"够聪明了"</h3>
+<p>2022 年以前的 AI,写代码的能力大概相当于一个刚学了三个月的实习生 —— 简单的能写,稍微复杂一点就全是 bug。</p>
+<p>2024-2025 年的 AI(比如 Claude、GPT-4、Gemini),水平已经相当于一个有两三年经验的初级工程师了。不是说它什么都会,但"做一个小 App 从头到尾跑通"这件事,它已经稳稳能干了。</p>
+
+<h3>第二条线:工具链到位了</h3>
+<p>光是 AI 聪明还不够。你还需要一套工具,让 AI 能直接在你的电脑上读文件、写文件、跑程序。</p>
+<p>2024 年之前,你得先把代码复制到 ChatGPT 里,再把它的回答复制回来 —— 非常麻烦。2025 年,有了 Codex、Cursor、Windsurf 这些工具,AI 能直接读你电脑上的项目文件、直接修改、直接运行。<strong>中间那个"复制来复制去"的步骤被消灭了</strong>。</p>
+
+<h3>第三条线:上线变免费了</h3>
+<p>以前你做了个网页,想让别人也能打开,你得花钱买服务器、配域名、搞 HTTPS 证书。现在有 Vercel、Netlify 这些服务,免费就能把你的小项目挂到公网上。点几个按钮,它给你一个 https:// 的网址,发给谁谁都能打开。</p>
+
+<div class="callout">
+<div class="callout-tag blue">一句话总结</div>
+<p><strong>AI 够聪明 + 工具够好用 + 上线够便宜 = 从"有想法"到"有人在用"的门槛,第一次低到了"一个普通人一周能跨过去"。</strong></p>
+</div>
+
+
+<h2>四、看几个真实做出来的东西(不是让你学,是让你有感觉)</h2>
+
+<p>说了这么多,不如看几个真实例子。下面这些小项目,全都是用 Vibe Coding 的方式做出来的,作者大多不是专业程序员。你先不用管它们怎么做的 —— 等你学完这门课,你自然会知道。</p>
+
+<h3>案例 1:SleepForest —— 一个助眠 App(本课主例)</h3>
+<p>这就是贯穿咱们整门课的那个项目。4 个场景(雨夜、森林、海边、深夜教室)、4 只小动物(猫、松鼠、水獭、刺猬),陪你做 4-7-8 呼吸法,AI 实时生成角色独白。原始需求就一句话:<em>"晚上睡不着,想有人陪着呼吸。"</em></p>
+<div class="img-placeholder">[ 截图占位 · SleepForest 主界面:雨夜场景 + 猫咪角色 + 呼吸圆圈 ]</div>
+
+<h3>案例 2:"今晚吃什么"轮盘</h3>
+<p>一个纯静态的小工具,没有任何 AI 接入。你把平时爱吃的菜加进去,点一下随机转轮盘,帮你决定今晚吃啥。做这个东西大概半小时。</p>
+<div class="img-placeholder">[ 截图占位 · 吃什么轮盘 · 色彩鲜艳的圆形转盘 ]</div>
+
+<h3>案例 3:AI 读书笔记整理器</h3>
+<p>你把读书的时候随手记的碎片笔记丢进去,AI 帮你整理成一份结构化的读书笔记。接了 AI API,但核心代码不到 30 行。</p>
+<div class="img-placeholder">[ 截图占位 · 读书笔记整理器界面 ]</div>
+
+<h3>案例 4:"生日倒数 + 心愿记录"个人页</h3>
+<p>一个单页互动网页。打开之后显示离你生日还有多少天,下面是一个心愿列表,可以添加和划掉。发给朋友当生日邀请函用。</p>
+<div class="img-placeholder">[ 截图占位 · 生日倒数页面 ]</div>
+
+<div class="callout">
+<div class="callout-tag blue">看完这四个,你应该有个感觉</div>
+<p>它们不是什么复杂的大系统。它们就是一些很小、很具体、解决一个很日常的问题的小东西。 但它们都是<strong>真实挂在网上、真的有人在用的</strong>。这就是你学完这门课之后手上会有的东西。</p>
+</div>
+
+
+<h2>五、这门课走完之后,你手上会有什么</h2>
+
+<p>说白了三件东西:</p>
+
+<div class="step-list">
+  <div class="step">
+    <div class="step-num"></div>
+    <div>
+      <h4>一个挂在公网、有真实网址的小项目</h4>
+      <p>不是截图,不是 demo,是一个 https:// 开头的链接 —— 发给任何人,他打开就能用。这个项目是你从零做的,解决的是你自己想解决的问题。</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div>
+      <h4>一条你能再走一遍的完整路径</h4>
+      <p>从"有个模糊的想法"一路走到"上线了、有人用了、收到反馈了",整套流程你走过一遍就不会忘。下次再有新想法,你知道第一步做什么、第二步做什么。</p>
+    </div>
+  </div>
+  <div class="step">
+    <div class="step-num"></div>
+    <div>
+      <h4>一张"下一步学什么"的地图</h4>
+      <p>加登录怎么做?加数据库怎么做?做成手机 App 怎么做?接付费功能怎么做?—— 不是教你全会,而是让你知道每条路多长多难,你自己决定走哪条。</p>
+    </div>
+  </div>
+</div>
+
+
+<h2>六、别慌,这门课的节奏是这样的</h2>
+
+<p>你现在看完了第一章,可能有两种感觉:</p>
+
+<p><strong>感觉 A:"行,我有点跃跃欲试了,想动手。"</strong> —— 很好,但先别急。下一章(第 2 章)我们先把你的想法理清楚,不然一上来就动手,做到一半发现方向不对,更挫败。</p>
+
+<p><strong>感觉 B:"听起来挺好,但我还是有点不信,怕自己不行。"</strong> —— 也很正常。你现在需要的不是"信心",而是"下一步"。下一步就是第 2 章,也不用动手,就是想一想你想做个啥。先走着,走两步你就知道行不行了。</p>
+
+<div class="callout dark">
+<div class="callout-tag green">本章的唯一目标(回看一眼)</div>
+<p style="color:var(--paper);">你不需要记住任何技术名词。你只需要带走一个感觉:这事儿我能干,下一步是把我想做什么想清楚。</p>
+</div>
+
+
+<div class="faq">
+<h2>常见问题</h2>
+<div class="faq-item"><div class="faq-q">我英文很差,行不行?</div><div class="faq-a">行。这门课全程中文教学。你跟 AI 对话也可以用中文。现在的 AI 听中文和英文一样好(有时候甚至中文更好,因为中文更擅长描述"感觉")。后面涉及的一些工具界面是英文的,我会截图带你走,不需要你自己翻译。</div></div>
+<div class="faq-item"><div class="faq-q">我连装软件都怕搞砸,怎么办?</div><div class="faq-a">第 4 章会手把手带你装,Mac 和 Windows 分别讲,每一步都有截图。而且装环境这事,只有第一次麻烦,装完之后就不用管了。实在装不上,在群里吼一声,会有人帮你。</div></div>
+<div class="faq-item"><div class="faq-q">这门课和学编程有什么区别?</div><div class="faq-a">学编程是学"怎么写代码" —— 语法、逻辑、数据结构,是一整套体系。这门课教的是"怎么让 AI 帮你写代码" —— 你需要掌握的是描述能力、判断力、审美。就像你不用学厨艺也能经营好一家餐厅,你需要的是品味和判断,不是刀工。</div></div>
+<div class="faq-item"><div class="faq-q">学完之后我算不算"会编程"?</div><div class="faq-a">看你怎么定义。如果"会编程"= 能手写一个排序算法,那不算。如果"会编程"= 能做出一个挂在网上有人用的小产品,那算。在 2026 年,后一种"会"正在变得比前一种更有价值。</div></div>
+<div class="faq-item"><div class="faq-q">Vibe Coding 做出来的东西,质量行吗?不是玩具吗?</div><div class="faq-a">看你怎么打磨。不打磨,确实是玩具。但这门课第 5 章专门讲打磨,第 7 章你自己做的项目也有"至少收集 3 条用户反馈并迭代"的要求。你最后交出来的东西,如果认真做,绝对不是玩具。</div></div>
+</div>
+
+
+<div class="ch-nav-bottom">
+  <button class="btn btn-ghost" onclick="showPage('home')">← 回到课程主页</button>
+  <button class="btn" onclick="showPage('ch2')">下一章:找到你的 Concept →</button>
+</div>
+
+</div>
+</div>
+
+
+<!-- ===================== CH 2 ===================== -->
+<div id="page-ch2" class="page">
+<div class="ch-page-header">
+  <button class="back" onclick="showPage('home')">← 回到课程主页</button>
+  <div class="ch-page-meta"><span class="badge mono">CH 02</span><span>PART 01 · 心法与准备</span><span>60 分钟</span><span>难度:★☆☆☆☆</span><span>写一页纸</span></div>
+  <h1 class="ch-page-title">你到底想做个啥 ——<br>把想法压缩成一句话</h1>
+  <p class="ch-page-subtitle">离开这节课时,你手上会有一张纸,上面写着你的项目到底是什么。后面所有章节,都是围着这张纸展开的。</p>
+</div>
+<div class="ch-content">
+
+<h2>一、为什么要先想清楚再动手</h2>
+<p>因为 AI 不是你肚子里的蛔虫。你说得越模糊,它做出来的东西就越跑偏 —— 然后你花两个小时改,改完发现方向从根上就是错的。先花 60 分钟想清楚"做啥",能帮你后面省 6 个小时的弯路。</p>
+
+<p>我见过最典型的失败不是"做不出来",而是<strong>"做出来了,但不是我想要的"</strong>。为啥?因为在开始之前,他自己也不知道自己要什么。</p>
+
+<h2>二、灵感从哪来 —— 三条挖掘路径</h2>
+
+<p>你不需要一个改变世界的创意。你需要的是一个<strong>你自己真心想用的小东西</strong>。怎么找?我给你三条路:</p>
+
+<h3>路径 A:你每天被什么事烦着?</h3>
+<p>想一想你日常生活中那些"哎这事也太麻烦了"的小瞬间。不用大,越小越好:</p>
+<p>—— 每天晚上想不出来吃啥(→ "今晚吃什么"轮盘)</p>
+<p>—— 读完一本书,笔记散在三个地方(→ 读书笔记整理器)</p>
+<p>—— 睡前总是忍不住刷手机(→ SleepForest 助眠 App)</p>
+<p>—— 和朋友约饭总是来回改时间(→ 简易日程投票器)</p>
+
+<h3>路径 B:你周末愿意花 3 小时捣鼓什么?</h3>
+<p>兴趣驱动。你不用解决什么问题,纯粹好玩就行:</p>
+<p>—— 喜欢看星座(→ 每日星座运势页面)</p>
+<p>—— 喜欢养植物(→ 浇水提醒器)</p>
+<p>—— 喜欢跑步(→ 跑步配速计算器)</p>
+<p>—— 喜欢猫(→ 随机猫咪图 + 每日一猫)</p>
+
+<h3>路径 C:身边人经常抱怨什么?</h3>
+<p>有时候别人的痛点比你自己的更容易发现:</p>
+<p>—— 你妈总记不住药什么时候吃(→ 吃药提醒小页面)</p>
+<p>—— 你朋友找不到好的自习室(→ 自习室推荐汇总)</p>
+<p>—— 你同事每次做会议纪要都重复格式(→ 会议纪要模板生成器)</p>
+
+<div class="callout">
+<div class="callout-tag blue">关键心法</div>
+<p><strong>不要想"市场上有没有人需要"</strong>。第一个项目,你就给自己做、给身边 5-10 个人用就够了。有用 > 有市场。</p>
+</div>
+
+
+<h2>三、一句话公式 —— 把任何想法压成 MVP</h2>
+
+<p>MVP 这个词在创业圈烂大街了,但核心意思很朴素:你能做出来的<strong>最小的、但有人真的会用的版本</strong>。</p>
+
+<p>我给你一个万能句式,试着把你的想法填进去:</p>
+
+<div class="callout warn">
+<p style="font-family:'Noto Serif SC',serif;font-size:24px;font-weight:500;text-align:center;line-height:1.4;">「一个 <u>&nbsp;&nbsp;____&nbsp;&nbsp;</u> 的 <u>&nbsp;&nbsp;____&nbsp;&nbsp;</u>,用来 <u>&nbsp;&nbsp;____&nbsp;&nbsp;</u>」</p>
+<p style="text-align:center;font-size:14px;color:var(--ink-mute);margin-top:12px;">(形容词)(东西)(目的)</p>
+</div>
+
+<p>举几个例子:</p>
+<p>—— 「一个 <strong>会陪你做呼吸法</strong> 的 <strong>助眠小页面</strong>,用来 <strong>帮你睡前放下手机</strong>」</p>
+<p>—— 「一个 <strong>随机转轮盘</strong> 的 <strong>选择器</strong>,用来 <strong>帮你决定今晚吃什么</strong>」</p>
+<p>—— 「一个 <strong>能自动整理碎片笔记</strong> 的 <strong>读书助手</strong>,用来 <strong>每读完一本书产出一份结构化笔记</strong>」</p>
+
+<p>如果你填不进去,说明想法还没想清楚。没关系,继续想,别急着动手。能填进去 = 你的想法已经够清晰,可以开始做了。</p>
+
+
+<h2>四、SleepForest 反推演示 —— 看一个想法是怎么一步步"长"出来的</h2>
+
+<p>我拿我们的主例 SleepForest 来给你演示一下从"模糊感觉"到"清晰 1-Pager"的全过程:</p>
+
+<div class="step-list">
+  <div class="step"><div class="step-num"></div><div>
+    <h4>原始感受(模糊)</h4>
+    <p>"有时候晚上睡不着,手机放不下来,如果有个什么东西能帮我过渡到困的状态就好了。"</p>
+  </div></div>
+  <div class="step"><div class="step-num"></div><div>
+    <h4>压缩成一句话</h4>
+    <p>「一个 <strong>会陪你做 4-7-8 呼吸法、讲睡前故事</strong> 的 <strong>小动物助眠 App</strong>,用来 <strong>帮你从"清醒刷手机"过渡到"有点困了"</strong>」</p>
+  </div></div>
+  <div class="step"><div class="step-num"></div><div>
+    <h4>核心 3 个功能</h4>
+    <p>① 场景选择(雨、森林、海、教室)—— 给你氛围感<br>② 呼吸引导(4-7-8 节奏)—— 生理上帮你放松<br>③ AI 角色独白 —— 小动物对你讲话,让你有"被陪伴"的感觉</p>
+  </div></div>
+  <div class="step"><div class="step-num"></div><div>
+    <h4>砍掉的功能(每一刀都有原因)</h4>
+    <p><strong>用户登录</strong> → 第一版不需要,因为不需要"记住你是谁"<br>
+    <strong>历史记录</strong> → 每次打开就是全新的,刷新清零完全可以接受<br>
+    <strong>付费订阅</strong> → 第一个项目别想着赚钱,先有人用<br>
+    <strong>多语言</strong> → 先做中文版,别贪</p>
+  </div></div>
+</div>
+
+<div class="callout">
+<div class="callout-tag blue">为什么要"砍"?</div>
+<p>因为每多一个功能,你的开发时间就多一倍,卡住的概率就多一倍。<strong>第一个项目的精神:砍到不能再砍,只留你最想验证的那一个核心体验。</strong> 其他功能等你上线之后、收到反馈了、确认有人要了,再慢慢加。</p>
+</div>
+
+
+<h2>五、第一个项目的"体检标准" —— 这四条都符合就行</h2>
+
+<p>不确定你的想法适不适合当第一个项目?过一遍这四条:</p>
+
+<p>✅ <strong>一个人自己能用</strong> —— 不需要对方也注册。你做的东西发给朋友,他打开就能用。</p>
+<p>✅ <strong>不需要登录账号</strong> —— 别碰"用户系统"这坨东西,第一次做会把你搞崩。</p>
+<p>✅ <strong>不需要记住历史</strong> —— 刷新页面清零完全可以接受。需要存数据的项目放到后面做。</p>
+<p>✅ <strong>你自己真心想用</strong> —— 如果你自己都觉得"做出来我也不会打开",那这个想法就不对。</p>
+
+<p>⚠️ 这些限制后面会慢慢放宽。第 8 章我们会聊怎么加登录、加数据库、加付费。但那都是后话 —— 先把第一个完整地做出来。</p>
+
+
+<h2>六、3 个最常见的"第一项目死法"</h2>
+
+<h3>死法 1:想做太大</h3>
+<p>"我要做一个比微信还好用的社交 App" —— 兄弟,微信有 3 万个工程师。你第一个项目做一个"朋友间的匿名留言板"就已经很不错了。<strong>越大的想法,第一行代码越远。</strong></p>
+
+<h3>死法 2:讲不清楚到底做的啥</h3>
+<p>"我想做一个能让人开心的东西" —— 你自己都讲不清,AI 更猜不出来。好想法一定能压成一句话。如果压不了,不是因为想法太高深,是因为<strong>你还没想透</strong>。</p>
+
+<h3>死法 3:被已有产品吓住</h3>
+<p>"Todo 类 App 市面上已经有 1000 个了" —— 那又怎样?你做的版本 + 你的审美 + 你身边 10 个朋友需要的那个特定功能,这个组合是独一无二的。<strong>第一个项目的目标不是"打败竞品",是"我朋友今天真的用上了"。</strong></p>
+
+
+<h2>章末交付物:你的项目 1-Pager</h2>
+
+<div class="deliver">
+<div class="deliver-tag">▸ 作业 · 这章结束你得写出来</div>
+<p>一张纸(Word、备忘录、甚至手写拍照都行),包含以下四项:</p>
+<ul>
+  <li>一句话 pitch(用那个万能句式)</li>
+  <li>最核心的 3 个功能</li>
+  <li>砍掉的 3 个功能(写清楚为什么砍)</li>
+  <li>3 个使用场景想象("谁、在什么时候、怎么用它")</li>
+</ul>
+<p style="margin-top:16px;">写完发到课程群里。不用完美,但必须写。下一章就是围着这张纸来的。</p>
+</div>
+
+
+<div class="faq">
+<h2>常见问题</h2>
+<div class="faq-item"><div class="faq-q">我想做的东西需要登录/支付/数据库,能做吗?</div><div class="faq-a">能做,但不要做成你的第一个项目。这门课的建议是:第一个项目过体检标准(不需要登录、不需要历史、一个人能用)。先走通流程,后面第 8 章会告诉你怎么加这些东西。</div></div>
+<div class="faq-item"><div class="faq-q">我有好几个想法,选哪个?</div><div class="faq-a">选你今晚最想用的那个。不是最"有市场前景"的,不是最"有技术含量"的,就是你今晚就想打开用的那个。这个选法最可靠,因为你自己真的想用 = 你知道什么叫"好用",打磨的时候才有标准。</div></div>
+<div class="faq-item"><div class="faq-q">我真的什么都想不出来,脑子一片空白</div><div class="faq-a">那就抄。去看看课程附录 B 里列的 10 个案例,或者第 7 章给你的 3 条备选路线(待办清单、AI 每日一言、打字练习)。先跟着做,做的过程中你自然会冒出"如果这里改成 XX 就好了"—— 那就是你自己的想法。</div></div>
+</div>
+
+<div class="ch-nav-bottom">
+  <button class="btn btn-ghost" onclick="showPage('ch1')">← 上一章:Vibe Coding 是啥</button>
+  <button class="btn" onclick="showPage('ch3')">下一章:做个原型出来 →</button>
+</div>
+</div>
+</div>
+
+
+<!-- ===================== CH 3 ===================== -->
+<div id="page-ch3" class="page">
+<div class="ch-page-header">
+  <button class="back" onclick="showPage('home')">← 回到课程主页</button>
+  <div class="ch-page-meta"><span class="badge mono">CH 03</span><span>PART 02 · 跟着 SleepForest</span><span>90 分钟</span><span>难度:★★☆☆☆</span><span>出一个可点击原型</span></div>
+  <h1 class="ch-page-title">先画个样子出来 ——<br>不写代码,光聊天就行</h1>
+  <p class="ch-page-subtitle">这章你会第一次跟 AI 对话做出一个能看、能点的东西。全程不写一行代码,你做的事只有:描述你要什么 → 看它做得对不对 → 再说哪里改。</p>
+</div>
+<div class="ch-content">
+
+<h2>一、为什么要先做原型</h2>
+<p>你脑子里想的"这个 App 长这样",和你真的看到它出现在屏幕上的"它居然长这样" —— <strong>90% 的时候不一样</strong>。</p>
+<p>这不是你的问题,这是所有人的问题。脑子里的画面永远比现实模糊。原型的作用就是:把那个模糊的画面拽出来,让你和 AI 都能"指着屏幕说话",而不是"在脑子里各想各的"。</p>
+<p>先做原型还有一个好处:改起来特别快。在原型阶段改一个颜色要 10 秒,在代码阶段改一个颜色可能要 10 分钟。<strong>尽量把"不确定"在原型阶段就消灭掉。</strong></p>
+
+<h2>二、Google AI Studio 入门三步</h2>
+
+<p>我们用一个叫 <strong>Google AI Studio</strong> 的免费工具来做原型。它不需要装任何软件,在浏览器里就能用。你跟它聊天,它直接给你生成一个可以看的页面。</p>
+
+<div class="step-list">
+  <div class="step"><div class="step-num"></div><div>
+    <h4>打开 AI Studio</h4>
+    <p>浏览器输入 <strong>aistudio.google.com</strong>,用你的 Google 账号登录。没有 Google 账号就注册一个,免费。</p>
+    <div class="img-placeholder">[ 截图占位 · AI Studio 首页 ]</div>
+  </div></div>
+  <div class="step"><div class="step-num"></div><div>
+    <h4>选模型</h4>
+    <p>左边会让你选用哪个 AI 模型。选 <strong>Gemini 2.5 Pro</strong>(或者当前最新的版本)。不用管它们之间的区别,选最新最大的就对了。</p>
+    <div class="img-placeholder">[ 截图占位 · 模型选择界面 ]</div>
+  </div></div>
+  <div class="step"><div class="step-num"></div><div>
+    <h4>第一次对话</h4>
+    <p>在聊天框里打字,告诉它你想要什么。它会生成一段代码和一个预览 —— 你看预览就行,代码不用看。</p>
+    <div class="img-placeholder">[ 截图占位 · 第一次对话 + 预览效果 ]</div>
+  </div></div>
+</div>
+
+
+<h2>三、好 prompt vs 坏 prompt —— 你怎么说话,决定了 AI 做出来的东西</h2>
+
+<p>这是整门课你要学的最重要的一个技能:<strong>怎么跟 AI 描述你要什么</strong>。同一件事,说法不同,结果天差地别。</p>
+
+<div class="versus">
+  <div class="versus-col">
+    <div class="versus-label bad">坏 prompt · 模糊、笼统</div>
+    <pre>"做一个助眠 App"</pre>
+    <p>AI 的反应:……助眠?什么风格?什么颜色?有没有角色?有没有音乐?有没有呼吸引导?你想要什么我全靠猜。</p>
+    <p>结果:它随便做了一个白底蓝字的页面,跟你想要的完全不一样。</p>
+  </div>
+  <div class="versus-col">
+    <div class="versus-label good">好 prompt · 具体、可视化</div>
+    <pre>"做一个深蓝色调的助眠 App 首页:
+中间有一只坐在雨夜窗边的
+卡通猫,底部有一个圆形播放按钮,
+下方有 4 个场景切换按钮
+(雨、森林、海、教室),
+整体氛围安静、偏暖蓝。"</pre>
+    <p>AI 的反应:深蓝色调,有猫,有圆形按钮,四个场景,暖蓝 —— 我全都有方向了。</p>
+    <p>结果:第一次出来的东西可能还不完美,但<strong>方向是对的</strong>,后续微调就行。</p>
+  </div>
+</div>
+
+<div class="callout">
+<div class="callout-tag blue">好 prompt 的三要素</div>
+<p><strong>① 视觉具体</strong> —— 说颜色、说布局、说大小、说位置(上下左右中间)<br>
+<strong>② 氛围具体</strong> —— "安静""暖""冷""活泼""极简""可爱" 这些词 AI 听得懂<br>
+<strong>③ 内容具体</strong> —— 页面上有什么元素,一个个列出来。别说"做几个按钮",要说"4 个按钮,分别是雨、森林、海、教室"</p>
+</div>
+
+
+<h2>四、给 AI 看"参考风格"的三种方式</h2>
+
+<p>有时候你说半天不如给它看一张图。这里有三种方式,从最简单到最有效:</p>
+
+<h3>方式 1:用文字描述风格</h3>
+<p>比如:"吉卜力风格"、"像 Monument Valley 那种配色"、"苹果官网那种极简感"、"像小红书的排版"。AI 对这些都有很好的理解。</p>
+
+<h3>方式 2:说一个参考产品名</h3>
+<p>"参考 Headspace(冥想 App)的那种风格"、"类似 Notion 的排版"。AI 知道这些产品长什么样。</p>
+
+<h3>方式 3:直接贴截图(最有效)</h3>
+<p>把你喜欢的 App 或网站截个图,直接贴到 AI Studio 的聊天框里,然后说"按这个风格来做我的页面"。<strong>这是最准的方式</strong>,因为你不用费劲描述那些你可能说不出来的视觉感觉。</p>
+
+<div class="callout warn">
+<div class="callout-tag red">注意</div>
+<p>贴参考截图不是让 AI 抄。你贴的是<strong>风格和感觉</strong>,不是让它做一模一样的东西。你可以说:"按这个截图的配色和布局风格来,但内容换成我自己的。"</p>
+</div>
+
+
+<h2>五、迭代节奏:一次只改一件事</h2>
+
+<p>第一次生成的东西不完美,很正常。接下来你的工作就是<strong>一轮一轮地改</strong>。但改的时候有个黄金原则:</p>
+
+<p style="font-family:'Noto Serif SC',serif;font-size:24px;font-weight:500;text-align:center;margin:32px 0;color:var(--accent);">一次只改一件事。</p>
+
+<p>别说"把颜色改了,字体也换了,按钮位置也挪一下,再加个 logo"。这样 AI 会手忙脚乱,你也分不清是哪个改动导致了新的问题。</p>
+
+<p>正确的节奏:</p>
+<p>第 1 轮:"背景颜色太亮了,换深一点的蓝。" → 看效果 → 行,下一个。</p>
+<p>第 2 轮:"猫的位置太靠上了,往中间挪。" → 看效果 → 行,下一个。</p>
+<p>第 3 轮:"底部按钮太小了,放大一圈。" → 看效果 → 行。</p>
+
+<p><strong>5 轮左右,你的原型就会从"还行"变成"嗯,这就是我想要的"。</strong></p>
+
+
+<h2>六、SleepForest 原型复盘 —— 从第 1 版到最终版</h2>
+
+<p>我把 SleepForest 做原型时的真实过程还原给你看:</p>
+
+<h3>第 1 版:初始 prompt</h3>
+<div class="callout">
+<pre style="font-size:14px;line-height:1.6;background:none;padding:0;color:var(--ink);">"做一个助眠 App 的首页。深蓝色调,中间有一只卡通猫坐在窗边看雨,底部有一个圆形的呼吸引导按钮,下方有 4 个场景按钮(雨、森林、海、教室)。整体感觉安静、温暖、像深夜的陪伴。"</pre>
+</div>
+<div class="img-placeholder">[ 截图占位 · SleepForest 原型 v1 ]</div>
+<p>第一版出来,大方向对了,但猫的风格太卡通、背景太亮、按钮太死板。</p>
+
+<h3>迭代 1 → 5:每次只动一件事</h3>
+<p><strong>迭代 1</strong>:"背景再暗一点,用 #0a1628 这种深蓝。" → 氛围立刻好了。</p>
+<p><strong>迭代 2</strong>:"猫的画风改柔和一点,像吉卜力那种温暖线条。" → 角色感觉对了。</p>
+<p><strong>迭代 3</strong>:"呼吸按钮加一个脉冲动画,像心跳那样一收一放。" → 有了"活"的感觉。</p>
+<p><strong>迭代 4</strong>:"4 个场景按钮加小图标,雨就用雨滴、森林就用树叶。" → 更直观了。</p>
+<p><strong>迭代 5</strong>:"整体字体换成圆体,更柔和。" → 完成。</p>
+<div class="img-placeholder">[ 截图占位 · SleepForest 原型 v5(最终版)vs v1 对比 ]</div>
+
+
+<h2>七、卡住了怎么办</h2>
+
+<div class="faq">
+<div class="faq-item"><div class="faq-q">AI 完全听不懂我在说什么,做出来的东西驴头不对马嘴</div><div class="faq-a">用"三件套":① 说一个参考产品("像 Headspace 那种感觉"),② 贴一张截图,③ 列出具体元素("页面上要有 XX、XX、XX")。三管齐下,AI 不可能听不懂。</div></div>
+<div class="faq-item"><div class="faq-q">越改越乱,好像前面改好的东西又被改坏了</div><div class="faq-a">这说明你一次改太多了。回到上一个"还行"的版本,重新来。AI Studio 的对话是可以回溯的,找到那条你觉得"上一版还行"的消息,从那里重新说。</div></div>
+<div class="faq-item"><div class="faq-q">我根本不知道我的页面应该长什么样</div><div class="faq-a">找 2-3 个你喜欢的 App 或网站截图,贴给 AI,说"按这个风格来做我的东西"。你不需要自己从零设计,借鉴风格完全没问题。</div></div>
+</div>
+
+
+<div class="deliver">
+<div class="deliver-tag">▸ 作业 · 这章结束你得交出</div>
+<p>把你第 2 章写的那页纸,跑成一个在 AI Studio 里能看到的可交互原型。然后:</p>
+<ul>
+  <li>录一段 1 分钟的屏幕演示,展示你的原型能做什么</li>
+  <li>发到课程群里</li>
+  <li>写 2-3 句话说明你做了几轮迭代、改了什么</li>
+</ul>
+</div>
+
+<div class="ch-nav-bottom">
+  <button class="btn btn-ghost" onclick="showPage('ch2')">← 上一章:找到你的 Concept</button>
+  <button class="btn" onclick="showPage('ch4')">下一章:认识 Codex →</button>
+</div>
+</div>
+</div>
+
+
+<!-- ===================== CH 4-8 (结构框架,内容待填) ===================== -->
+<div id="page-ch4" class="page">
+<div class="ch-page-header">
+  <button class="back" onclick="showPage('home')">← 回到课程主页</button>
+  <div class="ch-page-meta"><span class="badge mono">CH 04</span><span>PART 02</span><span>90 分钟</span><span>★★☆☆☆</span><span>第一次让 AI 改代码</span></div>
+  <h1 class="ch-page-title">认识 Codex ——<br>第一次让 AI 直接改你的项目</h1>
+  <p class="ch-page-subtitle">Codex 就是住在你电脑里的 AI 助手 —— 它不只会说,它会"做"。这章你第一次让它真正改动一个项目。</p>
+</div>
+<div class="ch-content">
+<h2>一、Codex 到底是个啥</h2>
+<p>你已经用过 ChatGPT 了对吧?你跟它聊天,它回你一段文字。很好用,但有个问题:<strong>它只会"说",不会"做"</strong>。你让它帮你改代码,它会写出一段代码给你看 —— 但你得自己复制这段代码、找到对应的文件、粘贴进去、保存、运行。</p>
+<p>Codex 不一样。Codex(以及 Cursor、Windsurf 这些类似工具)能<strong>直接读你电脑上的文件、直接改、直接跑</strong>。你说"把这个按钮颜色改成红的",它会自己找到那个文件、找到那行代码、改掉、帮你运行,你刷新浏览器就能看到效果。</p>
+
+<div class="callout">
+<div class="callout-tag blue">打个比方</div>
+<p>ChatGPT = 一个很懂行的顾问,你问他问题他给你建议,但你得自己去执行。<br>Codex = 一个住在你电脑里的助手,你说"帮我把这个改了",它直接动手帮你改。</p>
+</div>
+
+<h2>二、环境准备(每一步截图)</h2>
+<p>这一步可能是你最紧张的环节 —— 要装软件、要打开命令行。别怕,我一步一步带你走,Windows 和 Mac 分开讲。</p>
+
+<h3>第一步:装 Node.js</h3>
+<p>Node.js 是让你的电脑能"跑前端项目"的基础软件。你可以理解成:你的电脑要先学会一门语言,才能听懂 AI 写的那些代码。Node.js 就是这门语言的"课本"。</p>
+<div class="img-placeholder">[ 截图占位 · Node.js 官网下载页 · Mac 和 Windows 两个版本 ]</div>
+<p>去 <strong>nodejs.org</strong> 下载 LTS 版本(就是标着"推荐"的那个),双击安装,一路"下一步"就行。装完之后验证一下:</p>
+<div class="img-placeholder">[ 截图占位 · 终端输入 node --version 看到版本号 ]</div>
+
+<h3>第二步:打开终端</h3>
+<p><strong>Mac</strong>:按 Command + 空格,输入"Terminal",回车。那个黑色(或白色)的窗口就是终端。</p>
+<p><strong>Windows</strong>:搜索栏输入"PowerShell",打开 Windows PowerShell。</p>
+<p>终端是你跟电脑说话的地方 —— 你打字,电脑执行。以前程序员的大部分工作都在这里完成。但你不需要记任何命令,因为<strong>Codex 会帮你打命令</strong>。</p>
+<div class="img-placeholder">[ 截图占位 · Mac Terminal 和 Windows PowerShell 的样子 ]</div>
+
+<h3>第三步:装 Codex</h3>
+<p>在终端里输入下面这行(复制粘贴即可):</p>
+<div class="callout dark"><pre style="color:var(--glow);font-size:14px;margin:0;">npm install -g @openai/codex</pre></div>
+<p>等它跑完,你就装好了。如果报错,把报错截图发到群里,会有人帮你。</p>
+
+<h3>第四步:在项目目录启动 Codex</h3>
+<p>先用终端进入你的项目文件夹(后面我会教你怎么做),然后输入:</p>
+<div class="callout dark"><pre style="color:var(--glow);font-size:14px;margin:0;">codex</pre></div>
+<p>看到一个类似聊天窗口的界面出来了?恭喜你,<strong>你的 AI 助手已经"住进"你的电脑了</strong>。</p>
+
+<h2>三、第一次对话:用 SleepForest 当练习场</h2>
+
+<p>我们先用 SleepForest 这个现成项目来练手,让你感受一下"跟 AI 聊天式编程"是什么体验。</p>
+
+<h3>第一个操作:让它读一遍项目</h3>
+<div class="callout dark"><pre style="color:var(--paper);font-size:14px;margin:0;"><span style="color:var(--glow)">你 ›</span> 读一遍这个项目,告诉我里面有什么</pre></div>
+<p>Codex 会快速扫一遍所有文件,然后用大白话告诉你:"这个项目有 12 个文件,主要是一个 React 应用,包含了场景选择、呼吸引导、角色独白等功能,用了 Gemini API……"</p>
+<p>你不需要懂它说的每个词。你只需要知道:<strong>它已经把你的项目"看"过了,后面你让它改东西,它知道该改哪里。</strong></p>
+
+<h3>第二个操作:跑起来</h3>
+<div class="callout dark"><pre style="color:var(--paper);font-size:14px;margin:0;"><span style="color:var(--glow)">你 ›</span> 帮我把这个项目跑起来</pre></div>
+<p>Codex 会自动执行 <code>npm install</code>(安装依赖)和 <code>npm run dev</code>(启动项目)。然后它会告诉你:"打开浏览器,访问 http://localhost:5173"。你打开就能看到 SleepForest 在你电脑上跑起来了。</p>
+
+<h3>第三个操作:第一次改动</h3>
+<div class="callout dark"><pre style="color:var(--paper);font-size:14px;margin:0;"><span style="color:var(--glow)">你 ›</span> 默认的呼吸时长是 30 分钟,改成 15 分钟</pre></div>
+<p>注意这里你<strong>没有说"把 App.tsx 第 29 行的 30 改成 15"</strong>。你说的是你想要的结果。Codex 会自己去找对应的代码、改掉、然后问你:"改了,要我跑一下看看吗?"</p>
+<p>你说"跑",它就帮你运行,你刷新浏览器,呼吸时长真的变成 15 分钟了。</p>
+
+<div class="callout">
+<div class="callout-tag blue">核心心法(全课最重要的一句话之一)</div>
+<p style="font-family:'Noto Serif SC',serif;font-size:20px;font-weight:500;color:var(--accent);">描述你要的结果,不要描述怎么改代码。</p>
+<p>不说:"把 App.tsx 第 29 行的 DEFAULT_DURATION 改成 15"<br>而说:"默认时长从 30 分钟改成 15 分钟"</p>
+<p>这就是 Vibe Coding 的核心。你是"甲方",AI 是"施工队"。你说"我要什么效果",不是"你该怎么改代码"。</p>
+</div>
+
+<h2>四、Approve / Reject:AI 改完了你怎么判断</h2>
+<p>Codex 每次改完代码,都会问你"要不要通过(Approve)"。什么时候放过,什么时候要仔细看?</p>
+
+<p><strong>可以放过(不用仔细看代码)的情况:</strong></p>
+<p>—— 改了一句文案、改了一个颜色、改了一个数字</p>
+<p>—— 改完之后你在浏览器里看了,效果是对的</p>
+<p>—— 改动很小,不涉及核心功能</p>
+
+<p><strong>必须仔细看(至少让 Codex 解释一下)的情况:</strong></p>
+<p>—— 涉及删除文件或大段代码</p>
+<p>—— 涉及接入外部服务(比如 API、数据库)</p>
+<p>—— 你说的是一件事,但它改了好几个文件</p>
+<p>—— 改完之后运行报错了</p>
+
+<h2>五、卡住了怎么办</h2>
+<div class="faq">
+<div class="faq-item"><div class="faq-q">Codex 改错了,现在项目跑不起来了</div><div class="faq-a">跟它说:"撤销刚才的改动。" 它有这个能力。撤完了重新用不同的说法再试一次。如果同一件事你试了 3 种说法都不行,那很可能是你的需求太模糊了 —— 加一句"我希望的结果是:XXX",让它更清楚你要什么。</div></div>
+<div class="faq-item"><div class="faq-q">报了一堆错误,全是英文,完全看不懂</div><div class="faq-a">把那堆错误<strong>原封不动复制下来</strong>,贴回去给 Codex,说"报了这个错,帮我修"。它能看懂报错信息,而且大部分情况下它自己就能修好。你不需要理解报错内容。</div></div>
+<div class="faq-item"><div class="faq-q">装 Node.js 的时候就出错了</div><div class="faq-a">先确认你下的是 LTS 版本(不是"当前"版本)。Windows 用户如果报"权限不足",以管理员身份运行 PowerShell 再试。Mac 用户如果报错,试试在命令前加 sudo。实在搞不定,截图发群里,这类问题通常 5 分钟能解决。</div></div>
+</div>
+
+<div class="deliver">
+<div class="deliver-tag">▸ 作业</div>
+<p>在 SleepForest 项目上做 3 个指定改动:</p>
+<ul>
+  <li>换一句界面上的文案(随便换哪句)</li>
+  <li>换一个主色(比如把深蓝换成深紫)</li>
+  <li>加一个新按钮(按钮上写什么你定,点了之后做什么先不管)</li>
+</ul>
+<p>截图提交。</p>
+</div>
+
+<div class="ch-nav-bottom">
+  <button class="btn btn-ghost" onclick="showPage('ch3')">← 上一章:做原型</button>
+  <button class="btn" onclick="showPage('ch5')">下一章:从原型到真产品 →</button>
+</div>
+</div>
+</div>
+
+
+<!-- CH 5 -->
+<div id="page-ch5" class="page">
+<div class="ch-page-header">
+  <button class="back" onclick="showPage('home')">← 回到课程主页</button>
+  <div class="ch-page-meta"><span class="badge mono">CH 05</span><span>PART 02</span><span>3 小时</span><span>★★★☆☆</span><span>全课最重的一章</span></div>
+  <h1 class="ch-page-title">从原型到真产品 ——<br>搭、调、磨</h1>
+  <p class="ch-page-subtitle">这章最长最累。但学完,你就真的"会了"—— 会搭一个完整项目、会调试报错、会打磨细节。这三件事是 Vibe Coding 的核心技能。</p>
+</div>
+<div class="ch-content">
+<p style="font-size:20px;color:var(--accent);font-weight:500;text-align:center;margin:40px 0;">本章完整讲义正在编写中 —— 即将上线。</p>
+<p>本章将包含:SleepForest 项目完整解剖(每个文件干什么)、三个最小必要概念(组件/状态/副作用)、接入 AI 的 20 行代码逐行拆解、给 AI 分步派活儿的正确姿势、调试心法(报错/体验怪/改不动)、品味打磨三个真实案例。</p>
+<div class="ch-nav-bottom">
+  <button class="btn btn-ghost" onclick="showPage('ch4')">← 上一章:认识 Codex</button>
+  <button class="btn" onclick="showPage('ch6')">下一章:部署上线 →</button>
+</div>
+</div>
+</div>
+
+<!-- CH 6 -->
+<div id="page-ch6" class="page">
+<div class="ch-page-header">
+  <button class="back" onclick="showPage('home')">← 回到课程主页</button>
+  <div class="ch-page-meta"><span class="badge mono">CH 06</span><span>PART 02</span><span>90 分钟</span><span>★★☆☆☆</span><span>拿到 URL</span></div>
+  <h1 class="ch-page-title">挂到网上 ——<br>让它变成一个能发给别人的链接</h1>
+  <p class="ch-page-subtitle">到这章结束,你的项目从"只活在你电脑里"变成"全世界任何人打开浏览器就能用"。</p>
+</div>
+<div class="ch-content">
+<p style="font-size:20px;color:var(--accent);font-weight:500;text-align:center;margin:40px 0;">本章完整讲义正在编写中 —— 即将上线。</p>
+<p>本章将包含:什么叫"部署"(大白话解释)、Vercel 是啥(一句话理解)、Git 和 GitHub 的 4 件事(只讲你需要的)、Vercel 操作全流程(截图步骤)、环境变量与安全(API Key 不能写在代码里的血泪教训)、Preview Deployment 的妙用、自定义域名(选修)。</p>
+<div class="ch-nav-bottom">
+  <button class="btn btn-ghost" onclick="showPage('ch5')">← 上一章:原型到产品</button>
+  <button class="btn" onclick="showPage('ch7')">下一章:自己做一个 →</button>
+</div>
+</div>
+</div>
+
+<!-- CH 7 -->
+<div id="page-ch7" class="page">
+<div class="ch-page-header">
+  <button class="back" onclick="showPage('home')">← 回到课程主页</button>
+  <div class="ch-page-meta"><span class="badge mono">CH 07</span><span>PART 03</span><span>4-6 小时</span><span>★★★★☆</span><span>大作业</span></div>
+  <h1 class="ch-page-title">从零做一个<br>属于你自己的小项目</h1>
+  <p class="ch-page-subtitle">这是你的毕业作业。前六章学的所有东西,在这一章全部要自己走一遍。</p>
+</div>
+<div class="ch-content">
+<p style="font-size:20px;color:var(--accent);font-weight:500;text-align:center;margin:40px 0;">本章完整讲义正在编写中 —— 即将上线。</p>
+<p>本章将包含:完整的 8 步工作法(每步详解)、三条备选项目路线(纯静态/带AI/互动游戏,各给一个完整示例)、每一步的验收标准和卡住时怎么办、"完成比完美重要"的心法。</p>
+<div class="ch-nav-bottom">
+  <button class="btn btn-ghost" onclick="showPage('ch6')">← 上一章:部署上线</button>
+  <button class="btn" onclick="showPage('ch8')">下一章:接下来怎么走 →</button>
+</div>
+</div>
+</div>
+
+<!-- CH 8 -->
+<div id="page-ch8" class="page">
+<div class="ch-page-header">
+  <button class="back" onclick="showPage('home')">← 回到课程主页</button>
+  <div class="ch-page-meta"><span class="badge mono">CH 08</span><span>PART 03</span><span>60 分钟</span><span>—</span><span>规划+分享</span></div>
+  <h1 class="ch-page-title">接下来 3 个月怎么走 ——<br>你一个人也不会停</h1>
+  <p class="ch-page-subtitle">课程结束不等于你停下。这章给你一张地图,接下来 3 个月可以怎么走。</p>
+</div>
+<div class="ch-content">
+<p style="font-size:20px;color:var(--accent);font-weight:500;text-align:center;margin:40px 0;">本章完整讲义正在编写中 —— 即将上线。</p>
+<p>本章将包含:"一次性作业"到"真产品"的正循环、能力地图(登录/数据库/付费/App/Agent各走一步)、工具换代怎么跟进不焦虑、社区和信息源推荐、结课仪式。</p>
+<div class="ch-nav-bottom">
+  <button class="btn btn-ghost" onclick="showPage('ch7')">← 上一章:自己做一个</button>
+  <button class="btn" onclick="showPage('home')">回到课程主页 →</button>
+</div>
+</div>
+</div>
+
+
+<script>
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+window.addEventListener('hashchange', function() {
+  const hash = location.hash.replace('#', '');
+  if (hash && document.getElementById('page-' + hash)) {
+    showPage(hash);
+  }
+});
+
+if (location.hash) {
+  const h = location.hash.replace('#', '');
+  if (document.getElementById('page-' + h)) showPage(h);
+}
+</script>
+
+</body>
+</html>

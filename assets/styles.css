@@ -1,0 +1,173 @@
+/* Vibe Coding Course — global styles
+   Warm, bright, friendly. Serif display + sans body + mono for code/tech terms.
+*/
+
+:root {
+  /* Warm neutrals */
+  --bg:         #FDFBF7;
+  --bg-2:       #F7F2E8;
+  --bg-3:       #EFE8D6;
+  --ink:        #2B241E;
+  --ink-2:      #5C5247;
+  --ink-3:      #8A7E70;
+  --line:       rgba(43, 36, 30, 0.12);
+  --line-soft:  rgba(43, 36, 30, 0.06);
+
+  /* Accents — shared chroma/lightness, varied hue */
+  --amber:      oklch(0.72 0.14 55);     /* primary warm */
+  --amber-soft: oklch(0.92 0.06 70);
+  --amber-ink:  oklch(0.42 0.11 55);
+  --mist:       oklch(0.72 0.08 240);    /* secondary cool */
+  --mist-soft:  oklch(0.94 0.03 240);
+  --moss:       oklch(0.72 0.10 150);    /* chapter accent */
+  --moss-soft:  oklch(0.94 0.03 150);
+
+  /* Typography */
+  --f-serif:  'Noto Serif SC', ui-serif, Georgia, serif;
+  --f-sans:   'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --f-mono:   'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-xl: 32px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-sans);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 0%, oklch(0.95 0.05 70 / 0.6), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 100% 20%, oklch(0.93 0.04 240 / 0.4), transparent 60%);
+  background-attachment: fixed;
+}
+
+/* Latin numerals & english terms get mono treatment inline */
+.term { font-family: var(--f-mono); font-size: 0.92em; letter-spacing: -0.01em; }
+
+.serif { font-family: var(--f-serif); font-weight: 500; letter-spacing: -0.01em; }
+
+a { color: inherit; }
+button { font-family: inherit; }
+
+/* Shell layout */
+.shell { min-height: 100vh; display: flex; flex-direction: column; }
+
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 32px;
+  background: color-mix(in oklab, var(--bg) 85%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line-soft);
+}
+.nav .brand { display: flex; align-items: center; gap: 10px; font-family: var(--f-serif); font-size: 16px; font-weight: 500; }
+.nav .brand-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FEEFC9, var(--amber));
+  box-shadow: 0 0 0 4px oklch(0.95 0.05 70 / 0.6);
+}
+.nav .tabs { display: flex; gap: 4px; }
+.nav .tab {
+  background: none; border: 0; padding: 8px 14px; border-radius: 999px;
+  font-size: 13px; color: var(--ink-2); cursor: pointer; font-weight: 500;
+  transition: background 180ms, color 180ms;
+}
+.nav .tab:hover { background: var(--bg-2); color: var(--ink); }
+.nav .tab.active { background: var(--ink); color: var(--bg); }
+.nav .who { font-size: 12px; color: var(--ink-3); display: flex; align-items: center; gap: 10px; }
+.nav .avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--amber-soft), var(--mist-soft));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--ink-2);
+}
+
+/* Generic containers */
+.page { max-width: 1200px; margin: 0 auto; padding: 48px 32px 80px; }
+.page-narrow { max-width: 760px; margin: 0 auto; padding: 48px 32px 120px; }
+
+/* Eyebrow label */
+.eyebrow {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--ink-3);
+}
+
+/* Card */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  padding: 22px;
+  transition: transform 240ms cubic-bezier(.4,0,.2,1), box-shadow 240ms, border-color 240ms;
+}
+.card:hover { transform: translateY(-2px); border-color: var(--ink-3); box-shadow: 0 16px 40px -22px rgba(43,36,30,0.2); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 999px;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  border: 1px solid var(--line); background: var(--bg);
+  color: var(--ink); transition: all 180ms;
+}
+.btn:hover { background: var(--bg-2); transform: translateY(-1px); }
+.btn-primary {
+  background: var(--ink); color: var(--bg); border-color: var(--ink);
+}
+.btn-primary:hover { background: var(--amber-ink); border-color: var(--amber-ink); }
+.btn-amber { background: var(--amber); color: white; border-color: var(--amber); }
+.btn-amber:hover { background: var(--amber-ink); border-color: var(--amber-ink); color: white; }
+
+/* Difficulty stars */
+.stars { color: var(--amber); font-size: 11px; letter-spacing: 2px; }
+
+/* Subtle divider */
+.hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+
+/* Tag */
+.tag {
+  display: inline-block; padding: 3px 10px; border-radius: 999px;
+  font-size: 11px; background: var(--bg-2); color: var(--ink-2);
+  border: 1px solid var(--line-soft);
+}
+.tag-mono { font-family: var(--f-mono); letter-spacing: 0.5px; }
+
+/* Prose */
+.prose p { font-size: 16px; line-height: 1.85; color: var(--ink-2); margin: 0 0 1em; }
+.prose h2 { font-family: var(--f-serif); font-weight: 500; font-size: 28px; margin: 60px 0 18px; letter-spacing: -0.01em; color: var(--ink); }
+.prose h3 { font-family: var(--f-sans); font-weight: 600; font-size: 18px; margin: 40px 0 12px; color: var(--ink); }
+.prose ul { padding-left: 20px; color: var(--ink-2); }
+.prose li { margin: 6px 0; line-height: 1.8; }
+.prose code { font-family: var(--f-mono); font-size: 13px; background: var(--amber-soft); padding: 2px 6px; border-radius: 4px; color: var(--amber-ink); }
+.prose strong { color: var(--ink); font-weight: 600; }
+.prose blockquote {
+  border-left: 3px solid var(--amber); margin: 20px 0; padding: 4px 0 4px 20px;
+  color: var(--ink-2); font-family: var(--f-serif); font-size: 17px; font-style: italic;
+}
+
+/* Focus */
+button:focus-visible, a:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-radius: 6px; }
+
+/* Scrollbar soft */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+/* Animations */
+@keyframes drift { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+.drift { animation: drift 6s ease-in-out infinite; }
+
+@keyframes pulseDot { 0%,100% { opacity: 0.4 } 50% { opacity: 1 } }
+.pulse-dot { animation: pulseDot 2s infinite; }
