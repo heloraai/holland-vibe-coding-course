@@ -76,9 +76,9 @@ const COURSE = {
     {
       id: 8, partId: 'p3', num: '08',
       title: '继续 Vibe 下去',
-      goal: '你知道课程结束之后接下来 3 个月自己可以怎么走',
+      goal: '把「能搭建」拆成 5 种底层能力，给你一套工具之外、值得练一辈子的东西',
       duration: '1 小时', difficulty: 1, handsOn: false,
-      tags: ['能力地图', '路线图'],
+      tags: ['核心感悟', '能力本质', '3 个月节奏'],
     },
   ],
 
